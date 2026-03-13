@@ -1,0 +1,39 @@
+<!-- order-confirmation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Confirmed - GloBeauty</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background: #FFF5F5; text-align: center; padding: 50px; }
+        .success-card { background: white; max-width: 500px; margin: 0 auto; padding: 40px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .success-icon { font-size: 80px; color: #4CAF50; margin-bottom: 20px; }
+        h1 { color: #C45A5A; margin-bottom: 20px; }
+        .order-details { background: #f8f8f8; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: left; }
+        .btn { background: #D4A5A5; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="success-card">
+        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+        <h1>Payment Successful!</h1>
+        <p>Your order has been confirmed.</p>
+        <div class="order-details" id="orderSummary">
+            Loading order details...
+        </div>
+        <a href="account.html" class="btn"><i class="fas fa-user"></i> View in Account</a>
+        <a href="home.html" class="btn" style="background: #f0f0f0; color: #333; margin-left: 10px;">Continue Shopping</a>
+    </div>
+    
+    <script>
+        // Display order summary from URL parameters
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('orderSummary').innerHTML = `
+            <p><strong>Order ID:</strong> ${params.get('reference') || 'N/A'}</p>
+            <p><strong>Amount:</strong> KSh ${params.get('amount') || '0'}</p>
+            <p><strong>Status:</strong> Paid ✓</p>
+            <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+        `;
+    </script>
+</body>
+</html>

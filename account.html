@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GloBeauty | My Account Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #990592;
+            --primary-dark: #7a0475;
+            --secondary: #fd09d4;
+            --accent: #F7D4B5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+        }
+
+        [data-theme="dark"] {
+            --primary: #D4A5A5;
+            --primary-dark: #C45A5A;
+            --secondary: #F7D4B5;
+            --accent: #A7C7E7;
+            --dark: #f8fafc;
+            --light: #0f172a;
+            --gray-100: #1e293b;
+            --gray-200: #334155;
+            --gray-300: #475569;
+            --gray-400: #64748b;
+            --gray-500: #94a3b8;
+            --gray-600: #cbd5e1;
+            --gray-700: #e2e8f0;
+            --gray-800: #f1f5f9;
+            --gray-900: #f8fafc;
+            background: #0f172a;
+            color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        [data-theme="dark"] .header {
+            background: var(--gray-100);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .logo i {
+            background: var(--primary);
+            -webkit-text-fill-color: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            font-size: 1.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .theme-toggle {
+            background: var(--gray-100);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--gray-700);
+            font-size: 1.25rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(15deg);
+        }
+
+        .back-to-shop {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .back-to-shop:hover {
+            background: var(--primary-dark);
+            transform: translateX(-5px);
+        }
+
+        /* Main Layout */
+        .dashboard {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem 1rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        [data-theme="dark"] .sidebar {
+            background: var(--gray-100);
+        }
+
+        .user-profile-mini {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            border: 4px solid var(--secondary);
+        }
+
+        .user-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-email {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin-bottom: 1rem;
+        }
+
+        .membership-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            color: var(--gray-800);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-lg);
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav a i {
+            width: 24px;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--gray-100);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sidebar-nav a.active i {
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            min-height: 600px;
+        }
+
+        [data-theme="dark"] .main-content {
+            background: var(--gray-100);
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text p {
+            opacity: 0.9;
+        }
+
+        .quick-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Section Styles */
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Profile Section */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .profile-card {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .profile-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .profile-field {
+            margin-bottom: 1.25rem;
+        }
+
+        .field-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin-bottom: 0.25rem;
+        }
+
+        .field-value {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .edit-field {
+            color: var(--primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .edit-field:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Addresses Grid */
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .address-card {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+            position: relative;
+        }
+
+        .address-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .address-type {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-right: 80px;
+        }
+
+        .address-details {
+            margin-bottom: 1.5rem;
+            color: var(--gray-600);
+            line-height: 1.8;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 1rem;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 1rem;
+        }
+
+        .address-actions button {
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .address-actions button:hover {
+            color: var(--primary);
+        }
+
+        .add-address-card {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 2px dashed var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-address-card:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .add-address-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .add-address-card:hover i {
+            color: white;
+        }
+
+        /* Payment Methods */
+        .payments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .payment-card {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .payment-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info h4 {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-info p {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-default {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--success);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Orders Section */
+        .order-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--gray-200);
+            background: white;
+            color: var(--gray-700);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .order-item {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .order-id {
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .order-status {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-delivered { background: #d1fae5; color: #065f46; }
+        .status-shipped { background: #dbeafe; color: #1e40af; }
+        .status-processing { background: #fed7aa; color: #92400e; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        .status-paid { background: #d1fae5; color: #065f46; }
+
+        .order-products {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-product {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .product-details h5 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .product-details p {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .order-total {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-dark);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .order-actions button {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .order-actions button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Settings Section */
+        .settings-group {
+            background: var(--gray-100);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .settings-group h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .setting-info p {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: var(--gray-300);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--primary);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .danger-zone {
+            border: 2px solid var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: var(--gray-100);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--gray-300);
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 0 1rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-stats {
+                flex-wrap: wrap;
+            }
+
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        /* FAQ Styles */
+        details {
+            background: var(--gray-100);
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 0.75rem;
+        }
+        
+        details summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+        
+        details p {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="home.html" class="logo">
+                <i class="fas fa-spa"></i>
+                GloBeauty
+            </a>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="home.html" class="back-to-shop">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Shop
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile-mini" id="sidebarProfile">
+                <div class="user-avatar" id="sidebarAvatar">👤</div>
+                <div class="user-name" id="sidebarName">Loading...</div>
+                <div class="user-email" id="sidebarEmail">loading...</div>
+                <span class="membership-badge" id="membershipBadge">Member</span>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li><a href="#" onclick="showSection('dashboard')" class="active" id="nav-dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" onclick="showSection('profile')" id="nav-profile"><i class="fas fa-user-circle"></i> My Profile</a></li>
+                <li><a href="#" onclick="showSection('addresses')" id="nav-addresses"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
+                <li><a href="#" onclick="showSection('payments')" id="nav-payments"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+                <li><a href="#" onclick="showSection('orders')" id="nav-orders"><i class="fas fa-shopping-bag"></i> Order History</a></li>
+                <li><a href="#" onclick="showSection('wishlist')" id="nav-wishlist"><i class="fas fa-heart"></i> Wishlist</a></li>
+                <li><a href="#" onclick="showSection('support')" id="nav-support"><i class="fas fa-headset"></i> Support & Complaints</a></li>
+                <li><a href="#" onclick="showSection('settings')" id="nav-settings"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Loading your account...</p>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="section-dashboard" class="section active">
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h1>Welcome back, <span id="welcomeName">Beauty Lover</span>!</h1>
+                        <p>Here's what's happening with your account today</p>
+                    </div>
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="statOrders">0</div>
+                            <div class="stat-label">Orders</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="statWishlist">0</div>
+                            <div class="stat-label">Wishlist</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="statReviews">0</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card" onclick="showSection('profile')">
+                        <div class="card-icon"><i class="fas fa-user-circle"></i></div>
+                        <div class="card-title">Profile Completion</div>
+                        <div class="card-value" id="profileCompletion">75%</div>
+                        <a href="#" class="card-link">Complete your profile <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="dashboard-card" onclick="showSection('orders')">
+                        <div class="card-icon"><i class="fas fa-truck"></i></div>
+                        <div class="card-title">Active Orders</div>
+                        <div class="card-value" id="activeOrders">0</div>
+                        <a href="#" class="card-link">Track orders <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="dashboard-card" onclick="showSection('wishlist')">
+                        <div class="card-icon"><i class="fas fa-heart"></i></div>
+                        <div class="card-title">Wishlist</div>
+                        <div class="card-value" id="wishlistCount">0</div>
+                        <a href="#" class="card-link">View wishlist <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="dashboard-card" onclick="showSection('payments')">
+                        <div class="card-icon"><i class="fas fa-gift"></i></div>
+                        <div class="card-title">Reward Points</div>
+                        <div class="card-value" id="rewardPoints">0</div>
+                        <a href="#" class="card-link">Redeem points <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Preview -->
+                <div class="section-header" style="margin-top: 2rem;">
+                    <h2><i class="fas fa-history"></i> Recent Orders</h2>
+                    <button class="btn-outline" onclick="showSection('orders')">View All</button>
+                </div>
+
+                <div id="recentOrdersPreview" class="orders-list">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="section-profile" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-circle"></i> Personal Information</h2>
+                    <button class="btn-primary" onclick="openEditModal('profile')">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <h3><i class="fas fa-id-card"></i> Basic Information</h3>
+                        <div class="profile-field">
+                            <div class="field-label">Full Name</div>
+                            <div class="field-value">
+                                <span id="profileFullName">-</span>
+                                <button class="edit-field" onclick="openEditModal('name')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Display Name</div>
+                            <div class="field-value">
+                                <span id="profileDisplayName">-</span>
+                                <button class="edit-field" onclick="openEditModal('displayName')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Email Address</div>
+                            <div class="field-value">
+                                <span id="profileEmail">-</span>
+                                <button class="edit-field" onclick="openEditModal('email')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Phone Number</div>
+                            <div class="field-value">
+                                <span id="profilePhone">-</span>
+                                <button class="edit-field" onclick="openEditModal('phone')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3><i class="fas fa-calendar-alt"></i> Personal Details</h3>
+                        <div class="profile-field">
+                            <div class="field-label">Date of Birth</div>
+                            <div class="field-value">
+                                <span id="profileDob">-</span>
+                                <button class="edit-field" onclick="openEditModal('dob')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Gender</div>
+                            <div class="field-value">
+                                <span id="profileGender">-</span>
+                                <button class="edit-field" onclick="openEditModal('gender')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Member Since</div>
+                            <div class="field-value" id="profileMemberSince">-</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3><i class="fas fa-spa"></i> Beauty Profile</h3>
+                        <div class="profile-field">
+                            <div class="field-label">Skin Type</div>
+                            <div class="field-value">
+                                <span id="profileSkinType">-</span>
+                                <button class="edit-field" onclick="openEditModal('skinType')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Skin Concerns</div>
+                            <div class="field-value">
+                                <span id="profileConcerns">-</span>
+                                <button class="edit-field" onclick="openEditModal('concerns')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Allergies</div>
+                            <div class="field-value">
+                                <span id="profileAllergies">None reported</span>
+                                <button class="edit-field" onclick="openEditModal('allergies')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3><i class="fas fa-chart-line"></i> Account Statistics</h3>
+                        <div class="profile-field">
+                            <div class="field-label">Total Orders</div>
+                            <div class="field-value" id="statTotalOrders">0</div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Total Spent</div>
+                            <div class="field-value" id="statTotalSpent">KSh 0</div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Loyalty Points</div>
+                            <div class="field-value" id="statLoyaltyPoints">0</div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="field-label">Reviews Written</div>
+                            <div class="field-value" id="statReviewsCount">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Addresses Section -->
+            <div id="section-addresses" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-map-marker-alt"></i> Saved Addresses</h2>
+                    <button class="btn-primary" onclick="openAddressModal()">
+                        <i class="fas fa-plus"></i> Add New Address
+                    </button>
+                </div>
+
+                <div class="addresses-grid" id="addressesContainer">
+                    <!-- Addresses will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Payment Methods Section -->
+            <div id="section-payments" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-credit-card"></i> Payment Methods</h2>
+                    <button class="btn-primary" onclick="openPaymentModal()">
+                        <i class="fas fa-plus"></i> Add Payment Method
+                    </button>
+                </div>
+
+                <div class="payments-grid" id="paymentsContainer">
+                    <!-- Payment methods will be loaded here -->
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Billing Preferences</h3>
+                    <div class="profile-card">
+                        <div class="profile-field">
+                            <div class="field-label">Default Payment Method</div>
+                            <div class="field-value">
+                                <select id="defaultPayment" onchange="setDefaultPayment(this.value)" style="padding: 0.5rem; border-radius: var(--radius); border: 1px solid var(--gray-200);">
+                                    <option value="">Select default payment</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="section-orders" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-shopping-bag"></i> Order History</h2>
+                    <div class="order-filters">
+                        <button class="filter-btn active" onclick="filterOrders('all')">All</button>
+                        <button class="filter-btn" onclick="filterOrders('paid')">Paid</button>
+                        <button class="filter-btn" onclick="filterOrders('shipped')">Shipped</button>
+                        <button class="filter-btn" onclick="filterOrders('delivered')">Delivered</button>
+                    </div>
+                </div>
+
+                <div class="orders-list" id="ordersContainer">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Wishlist Section -->
+            <div id="section-wishlist" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-heart"></i> My Wishlist</h2>
+                    <button class="btn-outline" onclick="window.location.href='home.html'">
+                        <i class="fas fa-plus"></i> Add More Items
+                    </button>
+                </div>
+
+                <div class="dashboard-grid" id="wishlistContainer">
+                    <!-- Wishlist items will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Support & Complaints Section -->
+            <div id="section-support" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-headset"></i> Support & Complaints</h2>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <!-- Contact Form -->
+                    <div class="profile-card">
+                        <h3><i class="fas fa-envelope"></i> Send a Message</h3>
+                        <p style="margin-bottom: 1.5rem; color: var(--gray-500);">We'll respond within 24 hours</p>
+                        
+                        <form id="complaintForm" onsubmit="sendComplaint(event)">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select id="complaintSubject" required style="width: 100%; padding: 0.875rem; border-radius: var(--radius); border: 2px solid var(--gray-200);">
+                                    <option value="">Select a topic</option>
+                                    <option value="order">📦 Order Issue</option>
+                                    <option value="payment">💰 Payment Problem</option>
+                                    <option value="product">🧴 Product Complaint</option>
+                                    <option value="delivery">🚚 Delivery Issue</option>
+                                    <option value="refund">💸 Refund Request</option>
+                                    <option value="account">👤 Account Help</option>
+                                    <option value="other">❓ Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Order Reference (if applicable)</label>
+                                <input type="text" id="complaintOrderRef" placeholder="e.g., GLOBEAUTY-123456" style="width: 100%; padding: 0.875rem; border-radius: var(--radius); border: 2px solid var(--gray-200);">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Your Message</label>
+                                <textarea id="complaintMessage" rows="5" required placeholder="Please describe your issue in detail..." style="width: 100%; padding: 0.875rem; border-radius: var(--radius); border: 2px solid var(--gray-200); font-family: inherit;"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Attach Screenshot (optional)</label>
+                                <input type="file" id="complaintAttachment" accept="image/*" style="width: 100%; padding: 0.5rem; border: 2px solid var(--gray-200); border-radius: var(--radius);">
+                            </div>
+                            
+                            <button type="submit" class="btn-primary" style="width: 100%;">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Contact Info & FAQ -->
+                    <div>
+                        <div class="profile-card" style="margin-bottom: 1.5rem;">
+                            <h3><i class="fas fa-clock"></i> Response Time</h3>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0;">
+                                <div style="width: 50px; height: 50px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div>
+                                    <strong>Within 24 hours</strong>
+                                    <p style="color: var(--gray-500);">Monday - Friday, 8am - 6pm</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 50px; height: 50px; background: var(--warning); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <strong>Weekends & Holidays</strong>
+                                    <p style="color: var(--gray-500);">Within 48 hours</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-card" style="margin-bottom: 1.5rem;">
+                            <h3><i class="fas fa-phone-alt"></i> Contact Directly</h3>
+                            <div style="margin: 1rem 0;">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <i class="fas fa-envelope" style="color: var(--primary); width: 30px;"></i>
+                                    <span>babuyayah@gmail.com</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <i class="fas fa-phone" style="color: var(--primary); width: 30px;"></i>
+                                    <span>+254 798683711</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <i class="fab fa-whatsapp" style="color: #25D366; width: 30px;"></i>
+                                    <span>+254 706473231</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-card">
+                            <h3><i class="fas fa-question-circle"></i> Frequently Asked</h3>
+                            <div style="margin-top: 1rem;">
+                                <details>
+                                    <summary>How long for refund?</summary>
+                                    <p>Refunds process within 3-5 business days to your original payment method.</p>
+                                </details>
+                                <details>
+                                    <summary>Wrong item delivered</summary>
+                                    <p>Please submit a complaint with your order number and photos. We'll arrange replacement immediately.</p>
+                                </details>
+                                <details>
+                                    <summary>Cancel my order</summary>
+                                    <p>Orders can be cancelled within 1 hour of placement. After that, please contact support.</p>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="section-settings" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> Account Settings</h2>
+                </div>
+
+                <div class="settings-group">
+                    <h3><i class="fas fa-palette"></i> Appearance</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Dark Mode</h4>
+                            <p>Switch between light and dark theme</p>
+                        </div>
+                        <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Order Updates</h4>
+                            <p>Receive notifications about your orders</p>
+                        </div>
+                        <div class="toggle-switch active" id="notifyOrders" onclick="toggleNotification('orders')"></div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Promotions & Offers</h4>
+                            <p>Get updates about sales and new products</p>
+                        </div>
+                        <div class="toggle-switch active" id="notifyPromos" onclick="toggleNotification('promos')"></div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Routine Reminders</h4>
+                            <p>Daily reminders for your skincare routine</p>
+                        </div>
+                        <div class="toggle-switch" id="notifyRoutine" onclick="toggleNotification('routine')"></div>
+                    </div>
+                </div>
+
+                <div class="settings-group danger-zone">
+                    <h3><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Danger Zone</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h4>Delete Account</h4>
+                            <p>Permanently delete your account and all data</p>
+                        </div>
+                        <button class="btn-danger" onclick="confirmDeleteAccount()">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Address Modal -->
+    <div class="modal" id="addressModal">
+        <div class="modal-content">
+            <h2>Add New Address</h2>
+            <form id="addressForm" onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label>Address Label (e.g., Home, Work)</label>
+                    <input type="text" id="addressLabel" placeholder="Home" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="addressFullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="addressPhone" placeholder="+254 700 000000" required>
+                </div>
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <input type="text" id="addressStreet" placeholder="Street name, building, apartment" required>
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="addressCity" required>
+                </div>
+                <div class="form-group">
+                    <label>Postal Code</label>
+                    <input type="text" id="addressPostal" required>
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <select id="addressCountry" required>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Rwanda">Rwanda</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="addressDefault"> Set as default address
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Save Address</button>
+                    <button type="button" class="btn-outline" onclick="closeModal('addressModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <h2>Add Payment Method</h2>
+            <form id="paymentForm" onsubmit="savePayment(event)">
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentType" onchange="togglePaymentFields()" required>
+                        <option value="">Select payment method</option>
+                        <option value="card">Credit / Debit Card</option>
+                        <option value="mpesa">M-Pesa</option>
+                        <option value="paypal">PayPal</option>
+                    </select>
+                </div>
+
+                <!-- Card Fields -->
+                <div id="cardFields" style="display: none;">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" id="cardCvv" placeholder="123">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cardholder Name</label>
+                        <input type="text" id="cardName">
+                    </div>
+                </div>
+
+                <!-- M-Pesa Fields -->
+                <div id="mpesaFields" style="display: none;">
+                    <div class="form-group">
+                        <label>M-Pesa Phone Number</label>
+                        <input type="tel" id="mpesaPhone" placeholder="0712 345 678">
+                    </div>
+                    <div class="form-group">
+                        <label>Account Name</label>
+                        <input type="text" id="mpesaName">
+                    </div>
+                </div>
+
+                <!-- PayPal Fields -->
+                <div id="paypalFields" style="display: none;">
+                    <div class="form-group">
+                        <label>PayPal Email</label>
+                        <input type="email" id="paypalEmail" placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="paymentDefault"> Set as default payment method
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Save Payment Method</button>
+                    <button type="button" class="btn-outline" onclick="closeModal('paymentModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="profile-footer" style="background: var(--dark); color: white; padding: 40px 0 20px; margin-top: 60px; border-radius: 40px 40px 0 0;">
+        <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div style="text-align: center; opacity: 0.9;">
+                <p>© 2025 GloBeauty. Your Beauty Account.</p>
+                <p style="margin-top: 10px; font-size: 14px;">
+                    <i class="fas fa-shield"></i> Secure Payments • 
+                    <i class="fas fa-lock"></i> Data Protected
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Script -->
+    <script type="module">
+        // ========== FIREBASE INITIALIZATION ==========
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        // FIXED: Your Firebase config - I corrected the apiKey (you had a Paystack key there)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmL_Mv9YJM72FC2LLDvdluOUXUmMxQjc8",
+            authDomain: "littleexplorers-kenya.firebaseapp.com",
+            projectId: "littleexplorers-kenya",
+            storageBucket: "littleexplorers-kenya.firebasestorage.app",
+            messagingSenderId: "737872854301",
+            appId: "1:737872854301:web:18b6e0d163ddb9c2f5b5f4"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally
+        window.auth = auth;
+        window.db = db;
+
+        // ========== GLOBAL USER DATA ==========
+        let currentUser = null;
+        let userData = {
+            personal: {
+                name: '',
+                displayName: '',
+                email: '',
+                phone: '',
+                dob: '',
+                gender: '',
+                skinType: '',
+                skinConcerns: [],
+                allergies: []
+            },
+            addresses: [],
+            payments: [],
+            orders: [],
+            wishlist: [],
+            settings: {
+                theme: 'light',
+                notifications: {
+                    orders: true,
+                    promos: true,
+                    routine: false
+                }
+            },
+            statistics: {
+                totalOrders: 0,
+                totalSpent: 0,
+                loyaltyPoints: 0,
+                reviewsCount: 0
+            }
+        };
+
+        // ========== LOADING STATE ==========
+        document.getElementById('loadingState').style.display = 'flex';
+
+        // ========== CHECK AUTH STATE ==========
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // USER IS LOGGED IN - LOAD REAL DATA
+                console.log("✅ User logged in:", user.email);
+                currentUser = user;
+                await loadUserData(user.uid);
+                await loadOrders(user.uid);
+                updateUIWithUserData();
+            } else {
+                // USER IS NOT LOGGED IN - SHOW DEMO DATA
+                console.log("ℹ️ No user logged in - showing demo data");
+                loadDemoData();
+            }
+            document.getElementById('loadingState').style.display = 'none';
+        });
+
+        // ========== LOAD USER DATA FROM FIRESTORE ==========
+        async function loadUserData(uid) {
+            try {
+                const userDoc = await getDoc(doc(db, "users", uid));
+                
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    console.log("📁 User data loaded from Firestore:", data);
+                    
+                    // Personal info
+                    userData.personal = {
+                        name: data.name || currentUser?.displayName || '',
+                        displayName: data.displayName || data.name || currentUser?.displayName || '',
+                        email: currentUser?.email || data.email || '',
+                        phone: data.phone || '',
+                        dob: data.dob || '',
+                        gender: data.gender || '',
+                        skinType: data.skinType || '',
+                        skinConcerns: data.skinConcerns || [],
+                        allergies: data.allergies || []
+                    };
+
+                    // Addresses
+                    userData.addresses = data.addresses || [];
+
+                    // Payments
+                    userData.payments = data.payments || [];
+
+                    // Wishlist
+                    userData.wishlist = data.wishlist || [];
+
+                    // Settings
+                    userData.settings = { ...userData.settings, ...(data.settings || {}) };
+                } else {
+                    console.log("📝 No user document found, creating one...");
+                    // Create user document if it doesn't exist
+                    await setDoc(doc(db, "users", uid), {
+                        email: currentUser.email,
+                        name: currentUser.displayName || '',
+                        createdAt: serverTimestamp()
+                    });
+                }
+            } catch (error) {
+                console.error('❌ Error loading user data:', error);
+            }
+        }
+
+        // ========== LOAD ORDERS FROM FIRESTORE ==========
+        async function loadOrders(uid) {
+            try {
+                // Load orders from Firestore collection
+                const ordersQuery = query(
+                    collection(db, "orders"),
+                    where("userId", "==", uid),
+                    orderBy("paidAt", "desc")
+                );
+                const ordersSnapshot = await getDocs(ordersQuery);
+                
+                userData.orders = [];
+                userData.statistics.totalOrders = 0;
+                userData.statistics.totalSpent = 0;
+                
+                ordersSnapshot.forEach(doc => {
+                    const order = doc.data();
+                    userData.orders.push({
+                        id: doc.id,
+                        ...order
+                    });
+                    
+                    // Update statistics
+                    userData.statistics.totalOrders++;
+                    userData.statistics.totalSpent += order.total || 0;
+                });
+                
+                console.log(`📦 Loaded ${userData.orders.length} orders`);
+                
+                // Update UI with orders
+                renderOrders();
+                renderRecentOrders();
+                
+            } catch (error) {
+                console.error('❌ Error loading orders:', error);
+                userData.orders = [];
+            }
+        }
+
+        // ========== LOAD DEMO DATA ==========
+        function loadDemoData() {
+            console.log("🎭 Loading demo data");
+            userData = {
+                personal: {
+                    name: 'Sarah Beauty',
+                    displayName: 'Sarah',
+                    email: 'sarah@example.com',
+                    phone: '+254 712 345 678',
+                    dob: '1990-05-15',
+                    gender: 'female',
+                    skinType: 'dry',
+                    skinConcerns: ['Hydration', 'Anti-aging'],
+                    allergies: ['Fragrance']
+                },
+                addresses: [
+                    {
+                        id: 1,
+                        label: 'Home',
+                        fullName: 'Sarah Beauty',
+                        phone: '+254 712 345 678',
+                        street: '123 Beauty Lane, Westlands',
+                        city: 'Nairobi',
+                        postalCode: '00100',
+                        country: 'Kenya',
+                        isDefault: true
+                    }
+                ],
+                payments: [
+                    {
+                        id: 1,
+                        type: 'mpesa',
+                        phone: '0712345678',
+                        name: 'Sarah Beauty',
+                        isDefault: true
+                    }
+                ],
+                orders: [
+                    {
+                        id: 'DEMO-001',
+                        paymentReference: 'GLOBEAUTY-123456',
+                        total: 4550,
+                        status: 'paid',
+                        paidAt: new Date().toISOString(),
+                        paymentMethod: 'mpesa',
+                        items: [
+                            { name: 'Vitamin C Serum', quantity: 1, price: 3500 },
+                            { name: 'SPF 50 Sunscreen', quantity: 1, price: 1050 }
+                        ]
+                    },
+                    {
+                        id: 'DEMO-002',
+                        paymentReference: 'GLOBEAUTY-789012',
+                        total: 6200,
+                        status: 'shipped',
+                        paidAt: new Date(Date.now() - 86400000).toISOString(),
+                        paymentMethod: 'card',
+                        items: [
+                            { name: 'Hyaluronic Acid', quantity: 2, price: 2400 },
+                            { name: 'Night Cream', quantity: 1, price: 1400 }
+                        ]
+                    }
+                ],
+                wishlist: [],
+                settings: {
+                    theme: 'light',
+                    notifications: {
+                        orders: true,
+                        promos: true,
+                        routine: false
+                    }
+                },
+                statistics: {
+                    totalOrders: 2,
+                    totalSpent: 10750,
+                    loyaltyPoints: 500,
+                    reviewsCount: 3
+                }
+            };
+            
+            updateUIWithUserData();
+        }
+
+        // ========== UPDATE ALL UI WITH USER DATA ==========
+        function updateUIWithUserData() {
+            console.log("🖥️ Updating UI with user data");
+            
+            // Update sidebar
+            document.getElementById('sidebarName').textContent = userData.personal.displayName || userData.personal.name || 'User';
+            document.getElementById('sidebarEmail').textContent = userData.personal.email;
+            document.getElementById('sidebarAvatar').textContent = (userData.personal.name || 'U').charAt(0).toUpperCase();
+            
+            // Update welcome banner
+            document.getElementById('welcomeName').textContent = userData.personal.displayName || userData.personal.name || 'Beauty Lover';
+            document.getElementById('statOrders').textContent = userData.statistics.totalOrders;
+            document.getElementById('statWishlist').textContent = userData.wishlist.length;
+            document.getElementById('statReviews').textContent = userData.statistics.reviewsCount;
+
+            // Update dashboard cards
+            document.getElementById('profileCompletion').textContent = calculateProfileCompletion() + '%';
+            
+            const activeOrders = userData.orders.filter(o => o.status === 'processing' || o.status === 'shipped' || o.status === 'paid').length;
+            document.getElementById('activeOrders').textContent = activeOrders;
+            
+            document.getElementById('wishlistCount').textContent = userData.wishlist.length;
+            document.getElementById('rewardPoints').textContent = userData.statistics.loyaltyPoints.toLocaleString();
+
+            // Update profile section
+            document.getElementById('profileFullName').textContent = userData.personal.name || 'Not set';
+            document.getElementById('profileDisplayName').textContent = userData.personal.displayName || 'Not set';
+            document.getElementById('profileEmail').textContent = userData.personal.email;
+            document.getElementById('profilePhone').textContent = userData.personal.phone || 'Not set';
+            document.getElementById('profileDob').textContent = userData.personal.dob || 'Not set';
+            document.getElementById('profileGender').textContent = userData.personal.gender ? userData.personal.gender.charAt(0).toUpperCase() + userData.personal.gender.slice(1) : 'Not set';
+            document.getElementById('profileSkinType').textContent = userData.personal.skinType ? userData.personal.skinType.charAt(0).toUpperCase() + userData.personal.skinType.slice(1) : 'Not set';
+            document.getElementById('profileConcerns').textContent = userData.personal.skinConcerns?.length ? userData.personal.skinConcerns.join(', ') : 'None';
+            document.getElementById('profileAllergies').textContent = userData.personal.allergies?.length ? userData.personal.allergies.join(', ') : 'None reported';
+            
+            if (currentUser?.metadata?.creationTime) {
+                const memberSince = new Date(currentUser.metadata.creationTime);
+                document.getElementById('profileMemberSince').textContent = memberSince.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            } else {
+                document.getElementById('profileMemberSince').textContent = 'January 2025';
+            }
+
+            // Update statistics
+            document.getElementById('statTotalOrders').textContent = userData.statistics.totalOrders;
+            document.getElementById('statTotalSpent').textContent = `KSh ${userData.statistics.totalSpent.toLocaleString()}`;
+            document.getElementById('statLoyaltyPoints').textContent = userData.statistics.loyaltyPoints.toLocaleString();
+            document.getElementById('statReviewsCount').textContent = userData.statistics.reviewsCount;
+
+            // Render addresses
+            renderAddresses();
+            
+            // Render payment methods
+            renderPaymentMethods();
+            
+            // Update settings UI
+            updateSettingsUI();
+        }
+
+        // ========== CALCULATE PROFILE COMPLETION ==========
+        function calculateProfileCompletion() {
+            const fields = [
+                userData.personal.name,
+                userData.personal.phone,
+                userData.personal.dob,
+                userData.personal.skinType,
+                userData.personal.skinConcerns?.length > 0
+            ];
+            const completed = fields.filter(Boolean).length;
+            return Math.round((completed / fields.length) * 100);
+        }
+
+        // ========== RENDER ADDRESSES ==========
+        function renderAddresses() {
+            const container = document.getElementById('addressesContainer');
+            
+            if (userData.addresses?.length > 0) {
+                let html = '';
+                
+                userData.addresses.forEach((address, index) => {
+                    html += `
+                        <div class="address-card">
+                            ${address.isDefault ? '<span class="address-badge">Default</span>' : ''}
+                            <div class="address-type">${address.label || 'Address'}</div>
+                            <div class="address-details">
+                                <strong>${address.fullName}</strong><br>
+                                ${address.phone}<br>
+                                ${address.street}<br>
+                                ${address.city}, ${address.postalCode}<br>
+                                ${address.country}
+                            </div>
+                            <div class="address-actions">
+                                <button onclick="editAddress(${index})"><i class="fas fa-edit"></i> Edit</button>
+                                <button onclick="deleteAddress(${index})"><i class="fas fa-trash"></i> Delete</button>
+                                ${!address.isDefault ? `<button onclick="setDefaultAddress(${index})"><i class="fas fa-check-circle"></i> Set Default</button>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    <div class="add-address-card" onclick="openAddressModal()">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Add New Address</h3>
+                        <p>Click to add a delivery address</p>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `
+                    <div class="add-address-card" onclick="openAddressModal()">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Add Your First Address</h3>
+                        <p>Click to add a delivery address</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ========== RENDER PAYMENT METHODS ==========
+        function renderPaymentMethods() {
+            const container = document.getElementById('paymentsContainer');
+            const defaultSelect = document.getElementById('defaultPayment');
+            
+            if (userData.payments?.length > 0) {
+                let html = '';
+                let options = '<option value="">Select default payment</option>';
+                
+                userData.payments.forEach((payment, index) => {
+                    const icon = payment.type === 'card' ? 'fa-credit-card' : 
+                                payment.type === 'mpesa' ? 'fa-mobile-alt' : 'fa-paypal';
+                    
+                    html += `
+                        <div class="payment-card">
+                            <div class="payment-icon">
+                                <i class="fas ${icon}"></i>
+                            </div>
+                            <div class="payment-info">
+                                <h4>${payment.type === 'card' ? '💳 Credit Card' : 
+                                      payment.type === 'mpesa' ? '📱 M-Pesa' : '🅿️ PayPal'}</h4>
+                                <p>${payment.type === 'card' ? '**** ' + payment.last4 : 
+                                      payment.type === 'mpesa' ? payment.phone : payment.email}</p>
+                                ${payment.isDefault ? '<span class="payment-default">Default</span>' : ''}
+                                <div style="margin-top: 0.5rem;">
+                                    <button onclick="deletePayment(${index})" style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.875rem;">
+                                        <i class="fas fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    options += `<option value="${index}" ${payment.isDefault ? 'selected' : ''}>${payment.type.toUpperCase()} - ${payment.type === 'card' ? '**** ' + payment.last4 : payment.type === 'mpesa' ? payment.phone : payment.email}</option>`;
+                });
+                
+                html += `
+                    <div class="add-address-card" onclick="openPaymentModal()" style="min-height: 150px;">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Add Payment Method</h3>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+                defaultSelect.innerHTML = options;
+            } else {
+                container.innerHTML = `
+                    <div class="add-address-card" onclick="openPaymentModal()" style="min-height: 150px;">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Add Payment Method</h3>
+                        <p>Click to add your first payment method</p>
+                    </div>
+                `;
+                defaultSelect.innerHTML = '<option value="">No payment methods</option>';
+            }
+        }
+
+        // ========== RENDER ORDERS ==========
+        function renderOrders(filter = 'all') {
+            const container = document.getElementById('ordersContainer');
+            
+            if (userData.orders?.length > 0) {
+                let filteredOrders = userData.orders;
+                if (filter !== 'all') {
+                    filteredOrders = userData.orders.filter(order => order.status === filter);
+                }
+                
+                if (filteredOrders.length > 0) {
+                    let html = '';
+                    
+                    filteredOrders.forEach(order => {
+                        const date = new Date(order.paidAt).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                        });
+                        
+                        const statusClass = `status-${order.status || 'paid'}`;
+                        
+                        html += `
+                            <div class="order-item">
+                                <div class="order-header">
+                                    <div>
+                                        <span class="order-id">Order #${order.paymentReference?.slice(-8) || order.id?.slice(-8)}</span>
+                                        <span style="margin-left: 1rem; color: var(--gray-500);">${date}</span>
+                                    </div>
+                                    <span class="order-status ${statusClass}">${(order.status || 'Paid').toUpperCase()}</span>
+                                </div>
+                                
+                                <div class="order-products">
+                                    ${order.items?.map(item => `
+                                        <div class="order-product">
+                                            <div class="product-image">
+                                                <i class="fas ${item.icon || 'fa-box'}"></i>
+                                            </div>
+                                            <div class="product-details">
+                                                <h5>${item.name}</h5>
+                                                <p>Qty: ${item.quantity} • KSh ${(item.price * (item.quantity || 1)).toLocaleString()}</p>
+                                            </div>
+                                        </div>
+                                    `).join('') || '<p>Order items not available</p>'}
+                                </div>
+                                
+                                <div class="order-footer">
+                                    <span class="order-total">Total: KSh ${order.total?.toLocaleString() || 0}</span>
+                                    <div class="order-actions">
+                                        <button onclick="trackOrder('${order.id}')">Track Order</button>
+                                        <button onclick="viewInvoice('${order.id}')">View Invoice</button>
+                                        <button onclick="reorder('${order.id}')">Reorder</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <h3>No ${filter} orders</h3>
+                            <p>You don't have any ${filter} orders at the moment</p>
+                            <button class="btn-primary" onclick="window.location.href='home.html'">Start Shopping</button>
+                        </div>
+                    `;
+                }
+            } else {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>No orders yet</h3>
+                        <p>Your order history will appear here once you make your first purchase</p>
+                        <button class="btn-primary" onclick="window.location.href='home.html'">Start Shopping</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ========== RENDER RECENT ORDERS ==========
+        function renderRecentOrders() {
+            const container = document.getElementById('recentOrdersPreview');
+            
+            if (userData.orders?.length > 0) {
+                const recentOrders = userData.orders.slice(0, 3);
+                let html = '';
+                
+                recentOrders.forEach(order => {
+                    const date = new Date(order.paidAt).toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+                    
+                    html += `
+                        <div class="order-item" style="padding: 1rem; cursor: pointer;" onclick="showSection('orders')">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong>#${order.paymentReference?.slice(-8) || order.id?.slice(-8)}</strong>
+                                    <span style="margin-left: 1rem; color: var(--gray-500);">${date}</span>
+                                </div>
+                                <span style="color: var(--success);">✓ ${order.status || 'Paid'}</span>
+                            </div>
+                            <div style="margin-top: 0.5rem;">
+                                <span>KSh ${order.total?.toLocaleString() || 0}</span>
+                                <span style="margin-left: 1rem; color: var(--gray-500);">${order.paymentMethod || 'M-PESA'}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 2rem;">
+                        <i class="fas fa-box-open"></i>
+                        <p>No recent orders</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ========== UPDATE SETTINGS UI ==========
+        function updateSettingsUI() {
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            if (userData.settings.theme === 'dark') {
+                themeToggle.classList.add('active');
+                document.body.setAttribute('data-theme', 'dark');
+            } else {
+                themeToggle.classList.remove('active');
+                document.body.setAttribute('data-theme', 'light');
+            }
+            
+            // Notification toggles
+            document.getElementById('notifyOrders').className = userData.settings.notifications.orders ? 'toggle-switch active' : 'toggle-switch';
+            document.getElementById('notifyPromos').className = userData.settings.notifications.promos ? 'toggle-switch active' : 'toggle-switch';
+            document.getElementById('notifyRoutine').className = userData.settings.notifications.routine ? 'toggle-switch active' : 'toggle-switch';
+        }
+
+        // ========== SECTION NAVIGATION ==========
+        window.showSection = function(section) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav a').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`section-${section}`).classList.add('active');
+            document.getElementById(`nav-${section}`).classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // ========== FILTER ORDERS ==========
+        window.filterOrders = function(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderOrders(filter);
+        };
+
+        // ========== THEME TOGGLE ==========
+        window.toggleTheme = function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const isDark = themeToggle.classList.contains('active');
+            
+            if (isDark) {
+                themeToggle.classList.remove('active');
+                document.body.setAttribute('data-theme', 'light');
+                userData.settings.theme = 'light';
+            } else {
+                themeToggle.classList.add('active');
+                document.body.setAttribute('data-theme', 'dark');
+                userData.settings.theme = 'dark';
+            }
+            
+            if (currentUser) {
+                updateDoc(doc(db, "users", currentUser.uid), {
+                    'settings.theme': userData.settings.theme
+                }).catch(error => console.error('Error saving theme:', error));
+            }
+        };
+
+        // ========== NOTIFICATION TOGGLE ==========
+        window.toggleNotification = function(type) {
+            const toggle = document.getElementById(`notify${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            const isActive = toggle.classList.contains('active');
+            
+            if (isActive) {
+                toggle.classList.remove('active');
+                userData.settings.notifications[type] = false;
+            } else {
+                toggle.classList.add('active');
+                userData.settings.notifications[type] = true;
+            }
+            
+            if (currentUser) {
+                updateDoc(doc(db, "users", currentUser.uid), {
+                    'settings.notifications': userData.settings.notifications
+                }).catch(error => console.error('Error saving notifications:', error));
+            }
+        };
+
+        // ========== MODAL FUNCTIONS ==========
+        window.openAddressModal = function() {
+            document.getElementById('addressModal').classList.add('active');
+        };
+
+        window.openPaymentModal = function() {
+            document.getElementById('paymentModal').classList.add('active');
+        };
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        };
+
+        window.togglePaymentFields = function() {
+            const type = document.getElementById('paymentType').value;
+            document.getElementById('cardFields').style.display = type === 'card' ? 'block' : 'none';
+            document.getElementById('mpesaFields').style.display = type === 'mpesa' ? 'block' : 'none';
+            document.getElementById('paypalFields').style.display = type === 'paypal' ? 'block' : 'none';
+        };
+
+        // ========== SAVE ADDRESS ==========
+        window.saveAddress = function(event) {
+            event.preventDefault();
+            
+            const newAddress = {
+                label: document.getElementById('addressLabel').value,
+                fullName: document.getElementById('addressFullName').value,
+                phone: document.getElementById('addressPhone').value,
+                street: document.getElementById('addressStreet').value,
+                city: document.getElementById('addressCity').value,
+                postalCode: document.getElementById('addressPostal').value,
+                country: document.getElementById('addressCountry').value,
+                isDefault: document.getElementById('addressDefault').checked,
+                id: Date.now()
+            };
+            
+            if (!userData.addresses) userData.addresses = [];
+            
+            if (newAddress.isDefault || userData.addresses.length === 0) {
+                userData.addresses = userData.addresses.map(addr => ({ ...addr, isDefault: false }));
+                newAddress.isDefault = true;
+            }
+            
+            userData.addresses.push(newAddress);
+            
+            if (currentUser) {
+                updateDoc(doc(db, "users", currentUser.uid), {
+                    addresses: userData.addresses
+                }).then(() => {
+                    alert('✅ Address saved successfully!');
+                    renderAddresses();
+                    closeModal('addressModal');
+                }).catch(error => {
+                    console.error('Error saving address:', error);
+                    alert('❌ Error saving address');
+                });
+            } else {
+                alert('✅ Address saved (demo mode)');
+                renderAddresses();
+                closeModal('addressModal');
+            }
+        };
+
+        // ========== SAVE PAYMENT ==========
+        window.savePayment = function(event) {
+            event.preventDefault();
+            
+            const type = document.getElementById('paymentType').value;
+            let paymentData = {
+                type: type,
+                isDefault: document.getElementById('paymentDefault').checked,
+                id: Date.now()
+            };
+            
+            switch(type) {
+                case 'card':
+                    const cardNumber = document.getElementById('cardNumber').value;
+                    paymentData = {
+                        ...paymentData,
+                        last4: cardNumber.slice(-4),
+                        cardNumber: '**** **** **** ' + cardNumber.slice(-4),
+                        expiry: document.getElementById('cardExpiry').value,
+                        cardholderName: document.getElementById('cardName').value
+                    };
+                    break;
+                case 'mpesa':
+                    paymentData = {
+                        ...paymentData,
+                        phone: document.getElementById('mpesaPhone').value,
+                        name: document.getElementById('mpesaName').value
+                    };
+                    break;
+                case 'paypal':
+                    paymentData = {
+                        ...paymentData,
+                        email: document.getElementById('paypalEmail').value
+                    };
+                    break;
+            }
+            
+            if (!userData.payments) userData.payments = [];
+            
+            if (paymentData.isDefault || userData.payments.length === 0) {
+                userData.payments = userData.payments.map(p => ({ ...p, isDefault: false }));
+                paymentData.isDefault = true;
+            }
+            
+            userData.payments.push(paymentData);
+            
+            if (currentUser) {
+                updateDoc(doc(db, "users", currentUser.uid), {
+                    payments: userData.payments
+                }).then(() => {
+                    alert('✅ Payment method saved successfully!');
+                    renderPaymentMethods();
+                    closeModal('paymentModal');
+                }).catch(error => {
+                    console.error('Error saving payment:', error);
+                    alert('❌ Error saving payment method');
+                });
+            } else {
+                alert('✅ Payment method saved (demo mode)');
+                renderPaymentMethods();
+                closeModal('paymentModal');
+            }
+        };
+
+        // ========== EDIT FUNCTIONS ==========
+        window.openEditModal = function(field) {
+            alert(`Edit ${field} - This feature is coming soon!`);
+        };
+
+        // ========== ADDRESS ACTIONS ==========
+        window.editAddress = function(index) {
+            alert(`Edit address - feature coming soon`);
+        };
+
+        window.deleteAddress = function(index) {
+            if (confirm('Delete this address?')) {
+                userData.addresses.splice(index, 1);
+                renderAddresses();
+                
+                if (currentUser) {
+                    updateDoc(doc(db, "users", currentUser.uid), {
+                        addresses: userData.addresses
+                    }).catch(error => console.error('Error deleting address:', error));
+                }
+            }
+        };
+
+        window.setDefaultAddress = function(index) {
+            userData.addresses = userData.addresses.map((addr, i) => ({
+                ...addr,
+                isDefault: i === index
+            }));
+            renderAddresses();
+            
+            if (currentUser) {
+                updateDoc(doc(db, "users", currentUser.uid), {
+                    addresses: userData.addresses
+                }).catch(error => console.error('Error setting default address:', error));
+            }
+        };
+
+        window.deletePayment = function(index) {
+            if (confirm('Delete this payment method?')) {
+                userData.payments.splice(index, 1);
+                renderPaymentMethods();
+                
+                if (currentUser) {
+                    updateDoc(doc(db, "users", currentUser.uid), {
+                        payments: userData.payments
+                    }).catch(error => console.error('Error deleting payment:', error));
+                }
+            }
+        };
+
+        window.setDefaultPayment = function(index) {
+            if (index === '') return;
+            
+            userData.payments = userData.payments.map((p, i) => ({
+                ...p,
+                isDefault: i === parseInt(index)
+            }));
+            renderPaymentMethods();
+            
+            if (currentUser) {
+                updateDoc(doc(db, "users", currentUser.uid), {
+                    payments: userData.payments
+                }).catch(error => console.error('Error setting default payment:', error));
+            }
+        };
+
+        // ========== ORDER ACTIONS ==========
+        window.trackOrder = function(orderId) {
+            alert(`Tracking order - feature coming soon`);
+        };
+
+        window.viewInvoice = function(orderId) {
+            alert(`View invoice - feature coming soon`);
+        };
+
+        window.reorder = function(orderId) {
+            alert(`Reorder - feature coming soon`);
+        };
+
+        // ========== LOGOUT ==========
+        window.handleLogout = async function() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error('Error logging out:', error);
+                    alert('Error logging out');
+                }
+            }
+        };
+
+        window.confirmDeleteAccount = function() {
+            if (confirm('WARNING: This will permanently delete your account. Are you sure?')) {
+                alert('Account deletion - contact support');
+            }
+        };
+
+        // ========== INITIALIZE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('gloBeauty_theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        });
+
+        // ========== EMAILJS SETUP ==========
+        emailjs.init('YOUR_EMAILJS_USER_ID'); // You need to sign up at emailjs.com for this
+
+        window.sendComplaint = async function(event) {
+            event.preventDefault();
+            
+            const subject = document.getElementById('complaintSubject').value;
+            const subjectText = document.getElementById('complaintSubject').options[document.getElementById('complaintSubject').selectedIndex].text;
+            const orderRef = document.getElementById('complaintOrderRef').value;
+            const message = document.getElementById('complaintMessage').value;
+            
+            if (!subject || !message) {
+                alert('Please select a subject and enter your message.');
+                return;
+            }
+            
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                // For now, just open mailto as fallback
+                const mailtoLink = `mailto:support@globeauty.co.ke?subject=${encodeURIComponent('Support: ' + subjectText)}&body=${encodeURIComponent(
+                    `Order Reference: ${orderRef || 'N/A'}\n\nMessage:\n${message}\n\n---\nFrom: ${userData.personal.name || 'Customer'}\nEmail: ${userData.personal.email || 'No email'}`
+                )}`;
+                window.location.href = mailtoLink;
+                
+                alert('✅ Your message has been prepared! Please send the email from your email client.');
+                document.getElementById('complaintForm').reset();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Failed to send. Please email us directly at support@globeauty.co.ke');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>

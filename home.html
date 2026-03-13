@@ -1,0 +1,3601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GloBeauty | Your Beauty Destination</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ALL YOUR EXISTING CSS STAYS EXACTLY THE SAME */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Light Theme - Beauty & Cosmetics Palette */
+            --primary: #990592;
+            --secondary: #fd09d4;
+            --accent: #F7D4B5;
+            --blue: #A7C7E7;
+            --purple: #CBAACB;
+            --light: #FFF9F9;
+            --dark: #2A2D34;
+            --text: #4A4A4A;
+            --bg-primary: #FFF5F5;
+            --bg-secondary: white;
+            --card-bg: white;
+            --border-color: #FFE0E0;
+            --shadow: 0 8px 20px rgba(196, 90, 90, 0.08);
+            --hover-bg: #FFF0F0;
+            --input-bg: white;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --info: #2196F3;
+            --radius: 16px;
+        }
+
+        /* Dark Theme - Beauty Dark Mode */
+        [data-theme="dark"] {
+            --primary: #D4A5A5;
+            --secondary: #C45A5A;
+            --accent: #F7D4B5;
+            --blue: #A7C7E7;
+            --purple: #CBAACB;
+            --light: #2A2D34;
+            --dark: #0f0f0f;
+            --text: #E0E0E0;
+            --bg-primary: #1A1C20;
+            --bg-secondary: #2A2D34;
+            --card-bg: #2A2D34;
+            --border-color: #404040;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --hover-bg: #3A3D44;
+            --input-bg: #1A1C20;
+            --radius: 16px;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+            -webkit-text-fill-color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 30px;
+            position: relative;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 5px 0;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+            border-radius: 3px;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-actions a {
+            color: var(--text);
+            font-size: 18px;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .header-actions a:hover {
+            color: var(--secondary);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 12px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .account-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 15px !important;
+            box-shadow: 0 4px 10px rgba(212, 165, 165, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .account-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(212, 165, 165, 0.1) 0%, rgba(247, 212, 181, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            top: -200px;
+            right: -100px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            bottom: -150px;
+            left: -100px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            color: var(--text);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            font-weight: 800;
+        }
+        
+        .hero-text h1 span {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero-text h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-color: rgba(212, 165, 165, 0.2);
+            z-index: -1;
+            border-radius: 5px;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 35px;
+            color: var(--text);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary), #C45A5A);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(196, 90, 90, 0.3);
+            font-size: 16px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(196, 90, 90, 0.4);
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 8px solid var(--card-bg);
+        }
+        
+        /* Category Explorer */
+        .category-explorer {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--text);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .section-title p {
+            color: var(--text);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+        
+        .category-explorer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .category-slider {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .category-slider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        
+        .category-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 30px;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-marker:hover .marker-dot {
+            transform: scale(1.3);
+        }
+        
+        .category-marker.active .marker-dot {
+            transform: scale(1.2);
+            background-color: var(--secondary);
+            box-shadow: 0 0 0 8px rgba(196, 90, 90, 0.2);
+        }
+        
+        .marker-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .category-label {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text);
+            text-align: center;
+            background-color: var(--card-bg);
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+        
+        .category-details {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        .category-details.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .category-1 { background-color: var(--primary); }
+        .category-2 { background-color: var(--secondary); }
+        .category-3 { background-color: var(--accent); }
+        .category-4 { background-color: var(--blue); }
+        .category-5 { background-color: var(--purple); }
+        .category-6 { background-color: #FF6B9D; } /* Pink for Nail category */
+        
+        .category-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--text);
+        }
+        
+        .category-header p {
+            color: var(--text);
+            opacity: 0.8;
+            font-size: 16px;
+        }
+        
+        .category-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .product-item {
+            background-color: var(--hover-bg);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-item h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .product-item p {
+            font-size: 14px;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        /* Beauty Profile Hub */
+        .beauty-hub {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(167, 199, 231, 0.1) 0%, rgba(203, 170, 203, 0.1) 100%);
+            border-radius: 40px;
+            margin: 80px 0;
+        }
+        
+        .beauty-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .beauty-content {
+            flex: 1;
+            padding-right: 60px;
+        }
+        
+        .beauty-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .beauty-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--text);
+            opacity: 0.9;
+        }
+        
+        .beauty-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .beauty-feature {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        
+        .beauty-feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .beauty-feature i {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .beauty-feature h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .beauty-feature p {
+            font-size: 14px;
+            margin-bottom: 0;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        .beauty-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .beauty-image img {
+            max-width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 8px solid var(--card-bg);
+        }
+        
+        /* ===== BEAUTY BUNDLE BUILDER SECTION ===== */
+        .bundle-builder {
+            padding: 100px 0 80px;
+            background: var(--bg-primary);
+            border-radius: 60px 60px 0 0;
+            margin-top: 60px;
+        }
+        
+        .bundle-header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+        
+        .bundle-header-area h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        
+        .bundle-header-area h2 span {
+            color: var(--secondary);
+        }
+        
+        .bundle-badge {
+            background: var(--accent);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--dark);
+            box-shadow: var(--shadow);
+        }
+        
+        .bundle-badge i {
+            color: var(--secondary);
+            margin-right: 8px;
+        }
+        
+        .builder-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        /* Design Panel */
+        .design-panel {
+            background: var(--card-bg);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .design-panel h3 {
+            font-size: 26px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .option-block {
+            margin-bottom: 40px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 35px;
+        }
+        
+        .option-block:last-child {
+            border-bottom: none;
+        }
+        
+        .option-block h4 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        
+        .chip {
+            background: var(--hover-bg);
+            padding: 14px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+        
+        .chip i {
+            color: var(--primary);
+            font-size: 16px;
+        }
+        
+        .chip.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .chip.selected i {
+            color: white;
+        }
+        
+        .chip:hover:not(.selected) {
+            background: var(--hover-bg);
+            border-color: var(--primary);
+        }
+        
+        .slider-container {
+            background: var(--hover-bg);
+            padding: 25px;
+            border-radius: 28px;
+        }
+        
+        .concern-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0 5px;
+            color: var(--text);
+        }
+        
+        .concern-label i {
+            color: var(--purple);
+            width: 24px;
+            margin-right: 10px;
+        }
+        
+        .slider {
+            width: 100%;
+            margin: 10px 0 20px;
+            accent-color: var(--secondary);
+            height: 8px;
+            border-radius: 10px;
+        }
+        
+        .theme-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .theme-card {
+            background: var(--hover-bg);
+            padding: 20px 10px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 600;
+            border: 3px solid transparent;
+            transition: 0.15s;
+            cursor: pointer;
+            color: var(--text);
+        }
+        
+        .theme-card i {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        
+        .theme-card.selected {
+            border-color: var(--secondary);
+            background: var(--hover-bg);
+        }
+        
+        /* Bundle Preview Panel */
+        .preview-panel {
+            background: var(--card-bg);
+            border-radius: 40px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
+        }
+        
+        .preview-stamp {
+            background: var(--accent);
+            display: inline-block;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .bundle-title {
+            font-size: 28px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .bundle-theme-badge {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .bundle-items {
+            background: var(--hover-bg);
+            padding: 25px;
+            border-radius: 28px;
+            margin: 25px 0;
+        }
+        
+        .bundle-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .bundle-item:last-child {
+            border-bottom: none;
+        }
+        
+        .bundle-item i {
+            width: 32px;
+            color: var(--secondary);
+            font-size: 18px;
+        }
+        
+        .bundle-item span {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .bundle-price-tag {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+        
+        .btn-build {
+            background: linear-gradient(145deg, var(--secondary), #C45A5A);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            width: 100%;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: 0.25s;
+            box-shadow: 0 12px 25px rgba(196,90,90,0.3);
+            margin-top: 20px;
+        }
+        
+        .btn-build:hover {
+            transform: scale(1.02);
+            background: #B54A4A;
+        }
+        
+        .expert-note {
+            background: var(--hover-bg);
+            border-radius: 20px;
+            padding: 18px;
+            margin-top: 30px;
+            border-left: 8px solid var(--primary);
+            font-style: italic;
+            color: var(--text);
+        }
+        
+        .empty-bundle {
+            color: var(--text);
+            opacity: 0.5;
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 70px 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -150px;
+            right: -100px;
+        }
+        
+        .cta-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .cta-box p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button-light {
+            display: inline-block;
+            background-color: var(--card-bg);
+            color: var(--primary);
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+        
+        .cta-button-light:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            color: var(--secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #E0E0E0;
+            padding: 80px 0 30px;
+            border-radius: 40px 40px 0 0;
+            margin-top: 80px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-column ul li a {
+            color: #E0E0E0;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 15px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        /* ===== PRODUCTS SECTION ===== */
+        .products-section {
+            padding: 80px 0;
+            background: var(--bg-primary);
+        }
+        
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+        
+        .category-tab {
+            padding: 14px 28px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        
+        .category-tab i {
+            color: var(--primary);
+            font-size: 16px;
+        }
+        
+        .category-tab:hover {
+            border-color: var(--primary);
+            background: var(--hover-bg);
+        }
+        
+        .category-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .category-tab.active i {
+            color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(212, 165, 165, 0.15);
+            border-color: var(--primary);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--dark);
+            text-transform: uppercase;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: var(--hover-bg);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+        
+        .product-category {
+            color: var(--secondary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .product-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        
+        .product-description {
+            color: var(--text);
+            opacity: 0.7;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex: 1;
+        }
+        
+        .product-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .product-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        
+        .product-price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text);
+            opacity: 0.4;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+        }
+        
+        .btn-add-to-cart {
+            flex: 2;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-add-to-cart:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(212, 165, 165, 0.3);
+        }
+        
+        .btn-more-info {
+            flex: 1;
+            background: var(--card-bg);
+            color: var(--text);
+            border: 2px solid var(--border-color);
+            padding: 14px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-more-info:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-inquiry {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        
+        .btn-inquiry:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background: var(--hover-bg);
+        }
+        
+        /* Product Modal */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .product-modal.active {
+            display: flex;
+        }
+        
+        .product-modal-content {
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            animation: modalSlideUp 0.3s ease;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: 300;
+            color: var(--text);
+            opacity: 0.5;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--secondary);
+            opacity: 1;
+        }
+        
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(212,165,165,0.3);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 999;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        .cart-notification.show {
+            display: flex;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* ===== OUR BEAUTY EXPERTS SECTION ===== */
+        .beauty-experts-section {
+            padding: 80px 0;
+            background: var(--bg-primary);
+        }
+        
+        .experts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .expert-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .expert-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(212,165,165,0.15);
+        }
+        
+        .expert-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--hover-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .expert-icon i {
+            font-size: 35px;
+            color: var(--primary);
+        }
+        
+        .expert-card h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+        
+        .expert-card p {
+            color: var(--text);
+            opacity: 0.7;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .expert-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .expert-specialties span {
+            background: var(--hover-bg);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: var(--blue);
+        }
+        
+        .btn-expert {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .btn-expert:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Additional Styles */
+        .concern-level-badge {
+            background: var(--light);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price-breakdown {
+            background: var(--hover-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .price-row.total-row {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--dark);
+            border-top: 2px solid var(--border-color);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .discount-row {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .free-gift-badge {
+            background: linear-gradient(135deg, var(--accent), #F7D4B5);
+            color: var(--dark);
+            padding: 12px;
+            border-radius: 30px;
+            text-align: center;
+            font-weight: 700;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-save-profile {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 16px 30px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .btn-save-profile:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 14px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .reset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 50px;
+                text-align: center;
+            }
+            
+            .beauty-container {
+                flex-direction: column;
+            }
+            
+            .beauty-content {
+                padding-right: 0;
+                margin-bottom: 50px;
+                text-align: center;
+            }
+            
+            .category-slider {
+                flex-wrap: wrap;
+            }
+            
+            .category-marker {
+                margin: 10px 20px;
+            }
+            
+            .builder-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            
+            .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .beauty-features {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .cta-box h2 {
+                font-size: 32px;
+            }
+            
+            .bundle-header-area {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .theme-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-tabs {
+                gap: 10px;
+            }
+            
+            .category-tab {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-modal-content {
+                padding: 30px 20px;
+            }
+        }
+        /* Theme Toggle Button Animation */
+        #themeToggle {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        #themeToggle i {
+            transition: all 0.3s ease;
+        }
+
+        #themeToggle:hover {
+            transform: scale(1.1);
+        }
+
+        #themeToggle:hover i {
+            color: var(--primary);
+        }
+        
+        /* Search Overlay Styles */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 80px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .search-overlay.active {
+            display: flex;
+        }
+        
+        .search-container {
+            width: 90%;
+            max-width: 700px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .search-header h3 {
+            font-size: 20px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-header h3 i {
+            color: var(--primary);
+        }
+        
+        .close-search {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--text);
+            opacity: 0.5;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .close-search:hover {
+            opacity: 1;
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .search-input-icon {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 16px;
+            z-index: 1;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 15px 40px 15px 45px;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 16px;
+            background: var(--input-bg);
+            color: var(--text);
+            transition: all 0.3s;
+        }
+        
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(212, 165, 165, 0.1);
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--hover-bg);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .clear-search:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .search-filters {
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-chip {
+            padding: 8px 16px;
+            background: var(--hover-bg);
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .filter-chip:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg-primary);
+        }
+        
+        .search-initial {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text);
+            opacity: 0.5;
+        }
+        
+        .search-initial i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeInUp 0.3s ease;
+        }
+        
+        .search-result-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .search-result-item.selected {
+            border-color: var(--secondary);
+            background: var(--hover-bg);
+        }
+        
+        .result-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--hover-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .result-icon i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .result-info {
+            flex: 1;
+        }
+        
+        .result-name {
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        
+        .result-category {
+            font-size: 12px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .result-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 16px;
+        }
+        
+        .result-match {
+            font-size: 12px;
+            color: #4CAF50;
+            margin-left: 10px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text);
+        }
+        
+        .no-results i {
+            font-size: 50px;
+            color: var(--primary);
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+        
+        .search-footer {
+            padding: 15px 25px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 13px;
+        }
+        
+        .search-footer kbd {
+            background: var(--hover-bg);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            border: 1px solid var(--border-color);
+        }
+        
+        .search-shortcut-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: var(--text);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            z-index: 99;
+            transition: opacity 0.3s;
+        }
+        
+        .search-shortcut-hint.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Scrollbar styling */
+        .search-results::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .search-results::-webkit-scrollbar-track {
+            background: var(--hover-bg);
+        }
+        
+        .search-results::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .search-results::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-spa"></i>
+                GloBeauty
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#bundles">Beauty Bundles</a></li>
+                    <li><a href="account.html">My Profile</a></li>
+                    <li><a href="#experts">Beauty Experts</a></li>
+                    
+                    <!-- ADMIN BUTTON - Hidden by default, shows only for admins -->
+                    <li id="adminNavItem" style="display: none;">
+                        <a href="admin-dashboard.html" class="admin-btn" style="background: var(--purple); color: white; padding: 8px 20px; border-radius: 30px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-crown"></i> Admin
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+           <div class="header-actions">
+                <!-- Search Icon -->
+                <a href="#" onclick="toggleSearch(); return false;" title="Search (Ctrl+K)">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+                <!-- Theme Toggle Button -->
+                <a href="#" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </a>
+                
+                <a href="cart.html">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="#" class="account-btn" id="accountBtn"><i class="fas fa-user"></i> Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Discover Your <span>Natural Glow</span></h1>
+                <p>Explore our curated collection of premium skincare, makeup, haircare, nail care and beauty products tailored to your unique skin type and concerns.</p>
+                <a href="#categories" class="cta-button">Shop Categories <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="hero-image">
+                <video autoplay loop muted playsinline style="max-width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); border: 8px solid white;">
+                    <source src="beauty-video.mp4" type="video/mp4">
+                    <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Beauty products">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Explorer -->
+    <section class="category-explorer" id="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Shop by <span>Category</span></h2>
+                <p>Find exactly what your skin needs with our expertly curated categories</p>
+            </div>
+            
+            <div class="category-explorer-container">
+                <div class="category-slider">
+                    <div class="category-marker active" data-category="skincare">
+                        <div class="marker-dot"></div>
+                        <div class="category-label">Skincare</div>
+                    </div>
+                    <div class="category-marker" data-category="makeup">
+                        <div class="marker-dot"></div>
+                        <div class="category-label">Makeup</div>
+                    </div>
+                    <div class="category-marker" data-category="haircare">
+                        <div class="marker-dot"></div>
+                        <div class="category-label">Haircare</div>
+                    </div>
+                    <div class="category-marker" data-category="fragrance">
+                        <div class="marker-dot"></div>
+                        <div class="category-label">Fragrance</div>
+                    </div>
+                    <div class="category-marker" data-category="tools">
+                        <div class="marker-dot"></div>
+                        <div class="category-label">Beauty Tools</div>
+                    </div>
+                    <div class="category-marker" data-category="nail">
+                        <div class="marker-dot"></div>
+                        <div class="category-label">Nail Care</div>
+                    </div>
+                </div>
+                
+                <!-- Skincare Category -->
+                <div class="category-details active" id="category-skincare-details">
+                    <div class="category-header">
+                        <div class="category-icon category-1">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <div>
+                            <h3>Skincare: Glow Essentials</h3>
+                            <p>Cleansers, moisturizers, serums, and treatments for every skin type</p>
+                        </div>
+                    </div>
+                    
+                    <div class="category-products">
+                        <div class="product-item">
+                            <h4>AHA BHA Toner</h4>
+                            <p>AHA BHA 30DAYS MIRACLE TONER with Tea Tree 10,000ppm and Niacinamide 2%</p>
+                        </div>
+                        <div class="product-item">
+                            <h4>Hyaluronic Acid Moisturizer</h4>
+                            <p>Deep hydration that plumps and smooths fine lines.</p>
+                        </div>
+                        <div class="product-item">
+                            <h4>Gentle Foaming Cleanser</h4>
+                            <p>pH-balanced cleanser suitable for all skin types.</p>
+                        </div>
+                        <div class="product-item">
+                            <h4>Retinol Night Cream</h4>
+                            <p>Anti-aging treatment that renews skin while you sleep.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Makeup Category -->
+                <div class="category-details" id="category-makeup-details">
+                    <div class="category-header">
+                        <div class="category-icon category-2">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div>
+                            <h3>Makeup: Flawless Finish</h3>
+                            <p>Foundation, lipsticks, eyeshadows, and more for every look</p>
+                        </div>
+                    </div>
+                    
+                    <div class="category-products">
+                        <div class="product-item">
+                            <h4>Micro Brow Pencil</h4>
+                            <p>Break resistant, reinforced crayon for brows that doesn't smudge.</p>
+                        </div>
+                        <div class="product-item">
+                            <h4>Pro Conceal</h4>
+                            <p>Professional concealer for perfect coverage.</p>
+                        </div>
+                        <div class="product-item">
+                            <h4>Epic Liner</h4>
+                            <p>NYX professional makeup liner.</p>
+                        </div>
+                        <div class="product-item">
+                            <h4>Pro Pigment Palette</h4>
+                            <p>28 warm tones eyeshadow palette.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Haircare Category -->
+                <div class="category-details" id="category-haircare-details">
+                    <div class="category-header">
+                        <div class="category-icon category-3">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div>
+                            <h3>Haircare: Healthy Tresses</h3>
+                            <p>Shampoos, conditioners, and treatments for all hair types</p>
+                        </div>
+                    </div>
+                    <div class="category-products">
+                        <div class="product-item"><h4>Batiste Dry Shampoo</h4><p>Powder dry shampoo for volume.</p></div>
+                        <div class="product-item"><h4>Pistachio Hair Mask</h4><p>Omega 3-6-9 enriched hair mask.</p></div>
+                        <div class="product-item"><h4>Rosemary Essential Oil</h4><p>Maple Holistics rosemary oil for hair growth.</p></div>
+                        <div class="product-item"><h4>Hair Growth Serum</h4><p>Biotin 5% serum for maximum hair growth.</p></div>
+                         
+                    </div>
+                </div>
+                
+                <!-- Fragrance Category -->
+                <div class="category-details" id="category-fragrance-details">
+                    <div class="category-header">
+                        <div class="category-icon category-4">
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Fragrance: Signature Scents</h3>
+                            <p>Perfumes, body mists, and colognes for every preference</p>
+                        </div>
+                    </div>
+                    <div class="category-products">
+                        <div class="product-item"><h4>Sweet Oud Collection</h4><p>Sweet Oud, Spiced Oud, Dark Oud, Royal Oud, Rose Oud.</p></div>
+                        <div class="product-item"><h4>Citrus Body Mist</h4><p>Fresh and energizing citrus perfume mist.</p></div>
+                        <div class="product-item"><h4>Flowerbomb</h4><p>Viktor&Rolf Flowerbomb Eau de Parfum.</p></div>
+                        <div class="product-item"><h4>BOSS Bottled Unlimited</h4><p>Hugo Boss men's cologne.</p></div>
+                    </div>
+                </div>
+                
+                <!-- Beauty Tools Category -->
+                <div class="category-details" id="category-tools-details">
+                    <div class="category-header">
+                        <div class="category-icon category-5">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h3>Beauty Tools: Pro Results</h3>
+                            <p>Brushes, devices, and accessories for your routine</p>
+                        </div>
+                    </div>
+                    <div class="category-products">
+                        <div class="product-item"><h4>Jade Roller Set</h4><p>Reduces puffiness and boosts circulation.</p></div>
+                        <div class="product-item"><h4>Makeup Brush Set</h4><p>10-piece set with synthetic bristles.</p></div>
+                        <div class="product-item"><h4>LED Light Therapy Mask</h4><p>Anti-aging and acne treatment at home.</p></div>
+                        <div class="product-item"><h4>Microdermabrasion Tool</h4><p>Gentle exfoliation for smoother skin.</p></div>
+                        
+                    </div>
+                </div>
+                
+                <!-- Nail Care Category -->
+                <div class="category-details" id="category-nail-details">
+                    <div class="category-header">
+                        <div class="category-icon category-6">
+                            <i class="fas fa-hand-paper"></i>
+                        </div>
+                        <div>
+                            <h3>Nail Care: Perfect Manicure</h3>
+                            <p>Polishes, treatments, and tools for beautiful nails</p>
+                        </div>
+                    </div>
+                    <div class="category-products">
+                        <div class="product-item"><h4>Long-Lasting Nail Polish</h4><p>Chip-resistant formula with high shine finish.</p></div>
+                        <div class="product-item"><h4>Nail Strengthener Treatment</h4><p>Fortifies weak and brittle nails.</p></div>
+                        <div class="product-item"><h4>Cuticle Oil Pen</h4><p>Nourishing oil for healthy cuticles.</p></div>
+                        <div class="product-item"><h4>Quick-Dry Top Coat</h4><p>Seals color and dries in 60 seconds.</p></div>
+                        <div class="product-item"><h4>Gel Effect Polish</h4><p>Salon-quality shine without UV light.</p></div>
+                        <div class="product-item"><h4>Nail Art Kit</h4><p>Complete set for creative nail designs.</p></div>
+                        <div class="product-item"><h4>Matte Finish Top Coat</h4><p>Transforms any polish to matte finish.</p></div>
+                        <div class="product-item"><h4>Nail File & Buffer Set</h4><p>Professional-grade shaping tools.</p></div>
+                        <div class="product-item"><h4>Nail Polish Remover</h4><p>Acetone-free, gentle formula.</p></div>
+                        <div class="product-item"><h4>Base Coat Primer</h4><p>Protects nails and extends polish wear.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Shop by <span>Concern</span></h2>
+                <p>Find products tailored to your specific beauty needs</p>
+            </div>
+            
+            <!-- Category Filter Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all" onclick="filterProducts('all')">
+                    <i class="fas fa-grid-2"></i> All Products
+                </button>
+                <button class="category-tab" data-category="skincare" onclick="filterProducts('skincare')">
+                    <i class="fas fa-spa"></i> Skincare
+                </button>
+                <button class="category-tab" data-category="makeup" onclick="filterProducts('makeup')">
+                    <i class="fas fa-paint-brush"></i> Makeup
+                </button>
+                <button class="category-tab" data-category="haircare" onclick="filterProducts('haircare')">
+                    <i class="fas fa-hand-holding-heart"></i> Haircare
+                </button>
+                <button class="category-tab" data-category="fragrance" onclick="filterProducts('fragrance')">
+                    <i class="fas fa-feather-alt"></i> Fragrance
+                </button>
+                <button class="category-tab" data-category="tools" onclick="filterProducts('tools')">
+                    <i class="fas fa-bolt"></i> Tools
+                </button>
+                <button class="category-tab" data-category="nail" onclick="filterProducts('nail')">
+                    <i class="fas fa-hand-paper"></i> Nail Care
+                </button>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded here via JavaScript from Firebase -->
+                <div class="loading" style="text-align: center; padding: 50px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: var(--primary);"></i>
+                    <p style="margin-top: 20px;">Loading products...</p>
+                </div>
+            </div>
+            
+            <!-- Product Quick View Modal -->
+            <div class="product-modal" id="productModal">
+                <div class="modal-content product-modal-content">
+                    <span class="close-modal" onclick="closeProductModal()">&times;</span>
+                    <div id="productModalContent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BEAUTY BUNDLE BUILDER SECTION -->
+    <section class="bundle-builder" id="bundles">
+        <div class="container">
+            <div class="bundle-header-area">
+                <h2>Build Your <span>Beauty Bundle</span></h2>
+                <div class="bundle-badge">
+                    <i class="fas fa-wand-magic"></i> Personalized For Your Skin
+                </div>
+            </div>
+            
+            <div class="builder-grid">
+                <!-- LEFT: DESIGN PANEL -->
+                <div class="design-panel">
+                    <h3><i class="fas fa-sliders-h"></i> Customize Your Bundle</h3>
+                    
+                    <!-- Skin Type Selection -->
+                    <div class="option-block">
+                        <h4><i class="fas fa-smile"></i> 1. Your Skin Type</h4>
+                        <div class="chip-group" id="skin-type-chips">
+                            <div class="chip selected" data-skin="dry" data-label="Dry"><i class="fas fa-droplet"></i> Dry</div>
+                            <div class="chip" data-skin="oily" data-label="Oily"><i class="fas fa-oil-can"></i> Oily</div>
+                            <div class="chip" data-skin="combination" data-label="Combination"><i class="fas fa-balance-scale"></i> Combination</div>
+                            <div class="chip" data-skin="normal" data-label="Normal"><i class="fas fa-check-circle"></i> Normal</div>
+                            <div class="chip" data-skin="sensitive" data-label="Sensitive"><i class="fas fa-heart"></i> Sensitive</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skin Concerns -->
+                    <div class="option-block">
+                        <h4><i class="fas fa-exclamation-triangle"></i> 2. Skin Concerns <span style="font-size: 14px; color: #999;">(slide to adjust)</span></h4>
+                        <div class="slider-container">
+                            <!-- Anti-Aging -->
+                            <div class="concern-row">
+                                <span class="concern-label"><i class="fas fa-clock"></i> Anti-Aging</span>
+                                <span id="aging-value" class="concern-level-badge">Medium</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="3" class="slider" id="aging-slider">
+                            
+                            <!-- Acne/Pores -->
+                            <div class="concern-row">
+                                <span class="concern-label"><i class="fas fa-circle"></i> Acne & Pores</span>
+                                <span id="acne-value" class="concern-level-badge">Medium</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="3" class="slider" id="acne-slider">
+                            
+                            <!-- Hyperpigmentation -->
+                            <div class="concern-row">
+                                <span class="concern-label"><i class="fas fa-sun"></i> Hyperpigmentation</span>
+                                <span id="pigment-value" class="concern-level-badge">High</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="4" class="slider" id="pigment-slider">
+                            
+                            <!-- Hydration -->
+                            <div class="concern-row">
+                                <span class="concern-label"><i class="fas fa-water"></i> Hydration</span>
+                                <span id="hydration-value" class="concern-level-badge">Medium</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="3" class="slider" id="hydration-slider">
+                            
+                            <!-- Sensitivity -->
+                            <div class="concern-row">
+                                <span class="concern-label"><i class="fas fa-heart"></i> Sensitivity</span>
+                                <span id="sensitivity-value" class="concern-level-badge">Medium</span>
+                            </div>
+                            <input type="range" min="1" max="5" value="3" class="slider" id="sensitivity-slider">
+                        </div>
+                        <p style="font-size: 13px; color: #666; margin-top: 15px;">
+                            <i class="fas fa-info-circle"></i> Higher priority = more products focused on this concern
+                        </p>
+                    </div>
+                    
+                    <!-- Product Preference -->
+                    <div class="option-block">
+                        <h4><i class="fas fa-heart"></i> 3. Product Preference</h4>
+                        <div class="theme-grid" id="preference-grid">
+                            <div class="theme-card selected" data-preference="clean"><i class="fas fa-leaf"></i> Clean Beauty</div>
+                            <div class="theme-card" data-preference="luxury"><i class="fas fa-crown"></i> Luxury</div>
+                            <div class="theme-card" data-preference="vegan"><i class="fas fa-seedling"></i> Vegan</div>
+                            <div class="theme-card" data-preference="cruelty-free"><i class="fas fa-rabbit"></i> Cruelty-Free</div>
+                            <div class="theme-card" data-preference="fragrance-free"><i class="fas fa-wind"></i> Fragrance-Free</div>
+                            <div class="theme-card" data-preference="organic"><i class="fas fa-apple-alt"></i> Organic</div>
+                            <div class="theme-card" data-preference="k-beauty"><i class="fas fa-fan"></i> K-Beauty</div>
+                            <div class="theme-card" data-preference="clinical"><i class="fas fa-flask"></i> Clinical</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reset Button -->
+                    <button class="reset-btn" id="reset-bundle-btn">
+                        <i class="fas fa-undo-alt"></i> Reset to Defaults
+                    </button>
+                </div>
+                
+                <!-- RIGHT: BUNDLE PREVIEW PANEL -->
+                <div class="preview-panel">
+                    <div class="preview-stamp">
+                        <i class="fas fa-flask"></i> YOUR PERSONALIZED BUNDLE
+                    </div>
+                    
+                    <div class="bundle-title" id="bundle-title-display">Dry Skin Essentials</div>
+                    <div class="bundle-theme-badge" id="bundle-preference-display">
+                        <i class="fas fa-leaf"></i> Clean Beauty
+                    </div>
+                    
+                    <!-- Bundle Items Container -->
+                    <div class="bundle-items" id="bundle-items-container">
+                        <div class="empty-bundle">
+                            <i class="fas fa-cube" style="font-size: 40px; color: #ddd;"></i>
+                            <p style="margin-top: 12px;">Customize your bundle to see products</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Breakdown -->
+                    <div class="price-breakdown">
+                        <div class="price-row">
+                            <span>Subtotal (4 items)</span>
+                            <span id="bundle-subtotal">KSh 0</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Shipping</span>
+                            <span>KSh 150</span>
+                        </div>
+                        <div class="price-row discount-row" id="discount-row" style="display: none;">
+                            <span>10% Discount</span>
+                            <span id="bundle-discount">-KSh 0</span>
+                        </div>
+                        <div class="price-row total-row">
+                            <span>Total</span>
+                            <span class="bundle-price-tag" id="bundle-price-tag">KSh 0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Free Gift Badge -->
+                    <div class="free-gift-badge" id="free-gift-badge" style="display: none;">
+                        <i class="fas fa-gift"></i> 🎁 Free Travel Size Included! (4+ items)
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <button class="btn-build" id="add-bundle-to-cart">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    
+                    <button class="btn-save-profile" id="save-bundle-to-profile">
+                        <i class="fas fa-user"></i> Save to My Profile
+                    </button>
+                    
+                    <!-- Expert Note -->
+                    <div class="expert-note" id="expert-note">
+                        <i class="fas fa-lightbulb"></i> <strong>Beauty tip:</strong> This bundle targets hydration and anti-aging concerns.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beauty Profile Hub -->
+    <section class="beauty-hub" id="profile">
+        <div class="container beauty-container">
+            <div class="beauty-content">
+                <h2>Your Beauty Profile</h2>
+                <p>Create your personalized beauty profile to track your skin concerns, save favorite products, and get custom recommendations.</p>
+                
+                <div class="beauty-features">
+                    <div class="beauty-feature">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h4>Skin Analysis</h4>
+                        <p>Log your skin type and concerns for personalized recommendations.</p>
+                    </div>
+                    
+                    <div class="beauty-feature">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Progress Tracker</h4>
+                        <p>Track improvements in your skin over time with routine logging.</p>
+                    </div>
+                    
+                    <div class="beauty-feature">
+                        <i class="fas fa-heart"></i>
+                        <h4>Favorites</h4>
+                        <p>Save products and build your wishlist for easy reordering.</p>
+                    </div>
+                    
+                    <div class="beauty-feature">
+                        <i class="fas fa-history"></i>
+                        <h4>Routine Builder</h4>
+                        <p>Create and save your AM/PM skincare routines.</p>
+                    </div>
+                </div>
+                
+                <a href="account.html" class="cta-button">Create Your Beauty Profile <i class="fas fa-rocket"></i></a>
+            </div>
+            
+            <div class="hero-image">
+                <video autoplay loop muted playsinline style="max-width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); border: 8px solid white;">
+                    <source src="istockphoto-1355894194-640_adpp_is.mp4" type="video/mp4">
+                    <!-- This only shows if video fails -->
+                    <p>Your browser doesn't support videos.</p>
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Start Your Beauty Journey</h2>
+                <p>Join thousands of women who have discovered their perfect skincare routine with GloBeauty.</p>
+                <a href="account.html" class="cta-button-light">Create Free Profile <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BEAUTY EXPERTS SECTION -->
+    <section class="beauty-experts-section" id="experts">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Trusted <span>Beauty Experts</span></h2>
+                <p>Connect with Nairobi's top dermatologists and beauty professionals</p>
+            </div>
+
+            <!-- Featured Experts -->
+            <div class="experts-grid">
+                <div class="expert-card">
+                    <div class="expert-icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3>Dr. Sarah Kimani</h3>
+                    <p>Consultant Dermatologist with 15+ years experience in medical and cosmetic dermatology.</p>
+                    <div class="expert-specialties">
+                        <span>Acne Treatment</span>
+                        <span>Anti-aging</span>
+                        <span>Hyperpigmentation</span>
+                    </div>
+                    <div class="expert-links">
+                        <a href="#" class="btn-expert" onclick="bookConsultation('Dr. Sarah Kimani')">
+                            <i class="fas fa-calendar-check"></i> Book Consultation
+                        </a>
+                    </div>
+                </div>
+
+                <div class="expert-card">
+                    <div class="expert-icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3>Grace Wanjiku</h3>
+                    <p>Licensed Esthetician and Skincare Specialist focusing on African skin types.</p>
+                    <div class="expert-specialties">
+                        <span>Facials</span>
+                        <span>Chemical Peels</span>
+                        <span>Skin Analysis</span>
+                    </div>
+                    <div class="expert-links">
+                        <a href="#" class="btn-expert" onclick="bookConsultation('Grace Wanjiku')">
+                            <i class="fas fa-calendar-check"></i> Book Consultation
+                        </a>
+                    </div>
+                </div>
+
+                <div class="expert-card">
+                    <div class="expert-icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3>Dr. Amina Hassan</h3>
+                    <p>Cosmetic Dermatologist specializing in laser treatments and skin rejuvenation.</p>
+                    <div class="expert-specialties">
+                        <span>Laser Therapy</span>
+                        <span>Scar Reduction</span>
+                        <span>Melasma</span>
+                    </div>
+                    <div class="expert-links">
+                        <a href="#" class="btn-expert" onclick="bookConsultation('Dr. Amina Hassan')">
+                            <i class="fas fa-calendar-check"></i> Book Consultation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>GloBeauty</h3>
+                    <p>Your trusted source for premium beauty products and expert skincare advice.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="#categories" onclick="scrollToCategory('skincare')">Skincare</a></li>
+                        <li><a href="#categories" onclick="scrollToCategory('makeup')">Makeup</a></li>
+                        <li><a href="#categories" onclick="scrollToCategory('haircare')">Haircare</a></li>
+                        <li><a href="#categories" onclick="scrollToCategory('fragrance')">Fragrance</a></li>
+                        <li><a href="#categories" onclick="scrollToCategory('tools')">Beauty Tools</a></li>
+                        <li><a href="#categories" onclick="scrollToCategory('nail')">Nail Care</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="account.html">Create Profile</a></li>
+                        <li><a href="account.html#favorites">Favorites</a></li>
+                        <li><a href="account.html#routines">My Routines</a></li>
+                        <li><a href="account.html#orders">Order History</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="resources.html#skincare-guides">Skincare Guides</a></li>
+                        <li><a href="resources.html#ingredients">Ingredient Glossary</a></li>
+                        <li><a href="resources.html#routines">Routine Builder</a></li>
+                        <li><a href="resources.html#safety">Product Safety</a></li>
+                        <li><a href="mailto:hello@globeauty.com">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 GloBeauty. All rights reserved. | Your beauty, our passion.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Search Modal/Panel -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <div class="search-header">
+                <h3><i class="fas fa-search"></i> Search Products</h3>
+                <button class="close-search" onclick="toggleSearch()">&times;</button>
+            </div>
+            <div class="search-input-wrapper">
+                <i class="fas fa-search search-input-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search for skincare, makeup, haircare, tools, nail care..." autocomplete="off">
+                <button class="clear-search" id="clearSearch" onclick="clearSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-filters">
+                <div class="filter-chips">
+                    <span class="filter-chip active" data-filter="all" onclick="filterSearch('all')">All</span>
+                    <span class="filter-chip" data-filter="skincare" onclick="filterSearch('skincare')">Skincare</span>
+                    <span class="filter-chip" data-filter="makeup" onclick="filterSearch('makeup')">Makeup</span>
+                    <span class="filter-chip" data-filter="haircare" onclick="filterSearch('haircare')">Haircare</span>
+                    <span class="filter-chip" data-filter="fragrance" onclick="filterSearch('fragrance')">Fragrance</span>
+                    <span class="filter-chip" data-filter="tools" onclick="filterSearch('tools')">Tools</span>
+                    <span class="filter-chip" data-filter="nail" onclick="filterSearch('nail')">Nail Care</span>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults">
+                <div class="search-initial">
+                    <i class="fas fa-arrow-up"></i>
+                    <p>Type something to search products...</p>
+                </div>
+            </div>
+            <div class="search-footer">
+                <span><kbd>ESC</kbd> to close</span>
+                <span><kbd>↑</kbd> <kbd>↓</kbd> to navigate</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcut Hint -->
+    <div class="search-shortcut-hint" id="searchShortcutHint">
+        <span>Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to search</span>
+    </div>
+
+    <!-- ===== FIREBASE SETUP ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        // Firebase Config (SAME as all your other pages)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmL_Mv9YJM72FC2LLDvdluOUXUmMxQjc8",
+            authDomain: "littleexplorers-kenya.firebaseapp.com",
+            projectId: "littleexplorers-kenya",
+            storageBucket: "littleexplorers-kenya.firebasestorage.app",
+            messagingSenderId: "737872854301",
+            appId: "1:737872854301:web:18b6e0d163ddb9c2f5b5f4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Admin emails list
+        const ADMIN_EMAILS = ['babuyayah@gmail.com', 'admin@globeauty.com'];
+
+        // Global variables
+        window.products = [];
+        window.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const KSH_CONVERSION = 130;
+
+        function toKSH(usd) {
+            return Math.round(usd * KSH_CONVERSION);
+        }
+
+        // Load products from Firebase
+        async function loadProductsFromFirebase() {
+            try {
+                const productsSnapshot = await getDocs(collection(db, "products"));
+                const productsGrid = document.getElementById('products-grid');
+                
+                if (!productsSnapshot.empty) {
+                    // Clear loading message
+                    productsGrid.innerHTML = '';
+                    
+                    // Convert Firebase docs to array
+                    window.products = productsSnapshot.docs.map(doc => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            name: data.name || 'Product',
+                            category: data.category || 'skincare',
+                            categoryDisplay: data.categoryDisplay || getCategoryDisplay(data.category),
+                            price: data.price || 29.99,
+                            originalPrice: data.originalPrice || null,
+                            description: data.description || 'Premium beauty product',
+                            fullDescription: data.fullDescription || data.description || 'Premium beauty product for your skincare routine.',
+                            image: data.image || 'https://images.unsplash.com/photo-1612817288484-6f916644741c',
+                            badge: data.badge || (data.originalPrice ? 'Sale' : 'New'),
+                            inStock: data.inStock !== false,
+                            icon: data.icon || getCategoryIcon(data.category),
+                            stock: data.stock || 50
+                        };
+                    });
+                    
+                    // Load all products initially
+                    filterProducts('all');
+                } else {
+                    // If no products in Firebase, use fallback demo data
+                    console.log('No products in Firebase, using demo data');
+                    useDemoProducts();
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                // Fallback to demo products if Firebase fails
+                useDemoProducts();
+            }
+        }
+
+        function getCategoryDisplay(category) {
+            const displays = {
+                skincare: 'Skincare',
+                makeup: 'Makeup',
+                haircare: 'Haircare',
+                fragrance: 'Fragrance',
+                tools: 'Beauty Tools',
+                nail: 'Nail Care'
+            };
+            return displays[category] || category;
+        }
+
+        function getCategoryIcon(category) {
+            const icons = { 
+                skincare: 'fa-spa', 
+                makeup: 'fa-paint-brush', 
+                haircare: 'fa-hand-holding-heart', 
+                fragrance: 'fa-feather-alt', 
+                tools: 'fa-bolt',
+                nail: 'fa-hand-paper'
+            };
+            return icons[category] || 'fa-tag';
+        }
+
+        // Demo products for fallback
+        function useDemoProducts() {
+            window.products = [
+                { id: 1, name: "Vitamin C Serum", category: "skincare", categoryDisplay: "Skincare", price: 45.99, originalPrice: 55.99, description: "Brightening serum with Vitamin C", fullDescription: "10% Pure Vitamin C serum for glowing skin", image: "vitamin-c.jpg", badge: "Bestseller", inStock: true, icon: "fa-droplet" },
+                { id: 2, name: "Hyaluronic Acid", category: "skincare", categoryDisplay: "Skincare", price: 38.50, originalPrice: null, description: "Deep hydration serum", fullDescription: "Hydrating serum with 3 types of hyaluronic acid", image: "ha.jpg", badge: "New", inStock: true, icon: "fa-water" },
+                { id: 3, name: "Gentle Cleanser", category: "skincare", categoryDisplay: "Skincare", price: 24.99, originalPrice: 29.99, description: "pH-balanced cleanser", fullDescription: "Gentle foaming cleanser for all skin types", image: "cleanser.jpg", badge: "Sale", inStock: true, icon: "fa-soap" },
+                { id: 4, name: "Long-wear Foundation", category: "makeup", categoryDisplay: "Makeup", price: 42.99, originalPrice: null, description: "Full coverage foundation", fullDescription: "Long-wearing foundation with natural finish", image: "foundation.jpg", badge: "Bestseller", inStock: true, icon: "fa-paint-roller" }
+            ];
+            filterProducts('all');
+        }
+
+        // Filter products by category
+        window.filterProducts = function(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const productsGrid = document.getElementById('products-grid');
+            let filteredProducts = category === 'all' ? window.products : window.products.filter(p => p.category === category);
+            
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = '<p style="text-align: center; padding: 50px;">No products found in this category.</p>';
+                return;
+            }
+            
+            productsGrid.innerHTML = '';
+            filteredProducts.forEach(product => {
+                productsGrid.innerHTML += createProductCard(product);
+            });
+        };
+
+        // Create product card HTML
+        function createProductCard(product) {
+            const discount = product.originalPrice ? `<span>KSh ${toKSH(product.originalPrice).toLocaleString()}</span>` : '';
+            const badge = product.badge ? `<div class="product-badge">${product.badge}</div>` : '';
+            const kshPrice = toKSH(product.price).toLocaleString();
+            
+            return `
+                <div class="product-card" data-product-id="${product.id}">
+                    ${badge}
+                    <button class="btn-inquiry" onclick="inquiryProduct('${product.id}')" title="Ask about this product">
+                        <i class="fas fa-question"></i>
+                    </button>
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
+                    </div>
+                    <div class="product-category">
+                        <i class="fas ${product.icon || getCategoryIcon(product.category)}"></i> ${product.categoryDisplay}
+                    </div>
+                    <h3 class="product-title">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-price-row">
+                        <div class="product-price">
+                            KSh ${kshPrice}
+                            ${product.originalPrice ? `<span>KSh ${toKSH(product.originalPrice).toLocaleString()}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-add-to-cart" onclick="addToCart('${product.id}')">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                        <button class="btn-more-info" onclick="showProductInfo('${product.id}')">
+                            <i class="fas fa-info-circle"></i> Info
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add to cart function
+        window.addToCart = function(productId) {
+            const product = window.products.find(p => p.id == productId);
+            if (!product) return;
+            
+            const existingItem = window.cart.find(item => item.id == productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                window.cart.push({ 
+                    id: product.id, 
+                    name: product.name, 
+                    price: product.price, 
+                    icon: product.icon || getCategoryIcon(product.category), 
+                    quantity: 1 
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(window.cart));
+            updateCartCount();
+            showCartNotification(`${product.name} added to cart!`);
+        };
+
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                const totalItems = window.cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        }
+
+        function showCartNotification(message) {
+            let notification = document.querySelector('.cart-notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.className = 'cart-notification';
+                document.body.appendChild(notification);
+            }
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+
+        window.inquiryProduct = function(productId) {
+            const product = window.products.find(p => p.id == productId);
+            if (product) {
+                const subject = encodeURIComponent(`Inquiry about: ${product.name}`);
+                const body = encodeURIComponent(`Hello,\n\nI'm interested in learning more about the ${product.name}.\n\nQuestions:\n- Is this in stock?\n- What skin types is it suitable for?\n- Any patch test recommendations?\n\nThank you!`);
+                window.location.href = `mailto:hello@globeauty.com?subject=${subject}&body=${body}`;
+            }
+        };
+
+        window.showProductInfo = function(productId) {
+            const product = window.products.find(p => p.id == productId);
+            if (!product) return;
+            
+            const modal = document.getElementById('productModal');
+            const modalContent = document.getElementById('productModalContent');
+            
+            modalContent.innerHTML = `
+                <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="background: var(--hover-bg); padding: 0; border-radius: 20px; overflow: hidden;">
+                            <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 250px; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div style="flex: 2;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <span style="background: var(--primary); color: white; padding: 6px 18px; border-radius: 30px; font-size: 14px; font-weight: 600;">
+                                ${product.categoryDisplay}
+                            </span>
+                            ${product.badge ? `<span style="background: var(--secondary); color: white; padding: 6px 18px; border-radius: 30px; font-size: 14px; font-weight: 600;">
+                                ${product.badge}
+                            </span>` : ''}
+                        </div>
+                        
+                        <h2 style="font-size: 32px; margin-bottom: 15px; color: var(--text);">${product.name}</h2>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <span style="font-size: 36px; font-weight: 800; color: var(--secondary);">KSh ${toKSH(product.price).toLocaleString()}</span>
+                            ${product.originalPrice ? `<span style="font-size: 20px; color: var(--text); opacity: 0.5; text-decoration: line-through; margin-left: 15px;">KSh ${toKSH(product.originalPrice).toLocaleString()}</span>` : ''}
+                        </div>
+                        
+                        <div style="background: var(--hover-bg); padding: 25px; border-radius: 20px; margin-bottom: 25px;">
+                            <h4 style="font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--text);">
+                                <i class="fas fa-info-circle"></i> Product Details
+                            </h4>
+                            <p style="font-size: 16px; line-height: 1.8; color: var(--text); opacity: 0.8;">${product.fullDescription}</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px;">
+                            <button onclick="addToCart('${product.id}')" style="flex: 2; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; padding: 16px 30px; border-radius: 50px; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button onclick="inquiryProduct('${product.id}')" style="flex: 1; background: var(--card-bg); border: 2px solid var(--primary); color: var(--primary); padding: 16px 20px; border-radius: 50px; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;">
+                                <i class="fas fa-question-circle"></i> Ask
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        };
+
+        window.closeProductModal = function() {
+            document.getElementById('productModal').classList.remove('active');
+        };
+
+        // Auth state observer
+        onAuthStateChanged(auth, (user) => {
+            const adminNavItem = document.getElementById('adminNavItem');
+            const accountBtn = document.getElementById('accountBtn');
+            
+            if (user) {
+                console.log('User logged in:', user.email);
+                
+                // Update account button to show user name
+                if (accountBtn) {
+                    accountBtn.innerHTML = `<i class="fas fa-user"></i> ${user.email.split('@')[0]}`;
+                    accountBtn.href = "#";
+                    accountBtn.onclick = (e) => {
+                        e.preventDefault();
+                        if (confirm('Logout from GloBeauty?')) {
+                            signOut(auth).then(() => {
+                                localStorage.removeItem('gloBeauty_currentUser');
+                                window.location.href = 'index.html';
+                            });
+                        }
+                    };
+                }
+                
+                // Show admin button if user is admin
+                if (ADMIN_EMAILS.includes(user.email)) {
+                    adminNavItem.style.display = 'block';
+                } else {
+                    adminNavItem.style.display = 'none';
+                }
+            } else {
+                // User is signed out
+                if (accountBtn) {
+                    accountBtn.innerHTML = '<i class="fas fa-user"></i> Sign In';
+                    accountBtn.href = 'index.html';
+                    accountBtn.onclick = null;
+                }
+                adminNavItem.style.display = 'none';
+            }
+        });
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProductsFromFirebase();
+            updateCartCount();
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('gloBeauty_theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        });
+
+        // Expose to window for onclick handlers
+        window.logout = function() {
+            signOut(auth).then(() => {
+                localStorage.removeItem('gloBeauty_currentUser');
+                window.location.href = 'index.html';
+            });
+        };
+    </script>
+
+    <!-- Bundle Builder Script (unchanged from your original) -->
+    <script>
+        // ===== CATEGORY SLIDER FUNCTIONALITY =====
+        const categoryMarkers = document.querySelectorAll('.category-marker');
+        const categoryDetails = document.querySelectorAll('.category-details');
+        
+        categoryMarkers.forEach(marker => {
+            marker.addEventListener('click', () => {
+                const category = marker.getAttribute('data-category');
+                
+                categoryMarkers.forEach(m => m.classList.remove('active'));
+                categoryDetails.forEach(d => d.classList.remove('active'));
+                
+                marker.classList.add('active');
+                document.getElementById(`category-${category}-details`).classList.add('active');
+            });
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        function scrollToCategory(category) {
+            setTimeout(() => {
+                const explorerSection = document.getElementById('categories');
+                if (explorerSection) {
+                    explorerSection.scrollIntoView({ behavior: 'smooth' });
+                    const categoryMarkers = document.querySelectorAll('.category-marker');
+                    categoryMarkers.forEach(marker => {
+                        if (marker.getAttribute('data-category') === category) {
+                            marker.click();
+                        }
+                    });
+                }
+            }, 100);
+        }
+        window.scrollToCategory = scrollToCategory;
+
+        function bookConsultation(expertName) {
+            const currentUser = localStorage.getItem('gloBeauty_currentUser');
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                alert(`✅ Booking consultation with ${expertName}\n\nWe'll send a confirmation to ${user.phone || user.email}\n\nThis feature is coming soon!`);
+            } else {
+                if (confirm('Please sign in to book consultations. Go to login page?')) {
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+        window.bookConsultation = bookConsultation;
+
+        // Bundle Builder (keep your existing bundle builder code here)
+        const bundleProducts = {
+            'dry': [
+                { id: 'b1', name: 'Hyaluronic Acid Serum', price: 42.99, icon: 'fa-droplet', concerns: ['hydration', 'aging'], preferences: ['clean', 'vegan', 'fragrance-free'], desc: 'Deep hydration for dry skin' },
+                { id: 'b2', name: 'Rich Moisture Cream', price: 38.50, icon: 'fa-cream', concerns: ['hydration', 'sensitivity'], preferences: ['clean', 'organic', 'fragrance-free'], desc: 'Intense nourishment' },
+                { id: 'b3', name: 'Gentle Milk Cleanser', price: 24.99, icon: 'fa-soap', concerns: ['sensitivity'], preferences: ['clean', 'fragrance-free', 'cruelty-free'], desc: 'Non-stripping formula' }
+            ],
+            'oily': [
+                { id: 'b4', name: 'Niacinamide Serum', price: 39.99, icon: 'fa-droplet', concerns: ['acne', 'pigment'], preferences: ['clean', 'vegan', 'fragrance-free'], desc: 'Controls oil and minimizes pores' },
+                { id: 'b5', name: 'Gel Moisturizer', price: 32.50, icon: 'fa-cream', concerns: ['hydration', 'acne'], preferences: ['clean', 'fragrance-free'], desc: 'Oil-free hydration' }
+            ],
+            'combination': [
+                { id: 'b6', name: 'Balancing Toner', price: 28.99, icon: 'fa-spray-can', concerns: ['acne', 'hydration'], preferences: ['clean', 'cruelty-free'], desc: 'Hydrates without greasiness' }
+            ],
+            'sensitive': [
+                { id: 'b7', name: 'Barrier Repair Cream', price: 44.99, icon: 'fa-shield', concerns: ['sensitivity', 'hydration'], preferences: ['fragrance-free', 'clean'], desc: 'Calms and soothes irritation' }
+            ],
+            'normal': [
+                { id: 'b8', name: 'Vitamin C Brightening Serum', price: 45.99, icon: 'fa-sun', concerns: ['aging', 'pigment'], preferences: ['clean', 'vegan'], desc: 'Brightens and protects' }
+            ]
+        };
+
+        let skinType = 'dry';
+        let skinTypeLabel = 'Dry';
+        let preference = 'clean';
+        let agingVal = 3, acneVal = 3, pigmentVal = 4, hydrationVal = 3, sensitivityVal = 3;
+
+        const skinTypeChips = document.querySelectorAll('#skin-type-chips .chip');
+        const preferenceCards = document.querySelectorAll('#preference-grid .theme-card');
+        const agingSlider = document.getElementById('aging-slider');
+        const acneSlider = document.getElementById('acne-slider');
+        const pigmentSlider = document.getElementById('pigment-slider');
+        const hydrationSlider = document.getElementById('hydration-slider');
+        const sensitivitySlider = document.getElementById('sensitivity-slider');
+        const agingValue = document.getElementById('aging-value');
+        const acneValue = document.getElementById('acne-value');
+        const pigmentValue = document.getElementById('pigment-value');
+        const hydrationValue = document.getElementById('hydration-value');
+        const sensitivityValue = document.getElementById('sensitivity-value');
+        const bundleTitle = document.getElementById('bundle-title-display');
+        const bundlePreference = document.getElementById('bundle-preference-display');
+        const bundleItemsContainer = document.getElementById('bundle-items-container');
+        const bundleSubtotal = document.getElementById('bundle-subtotal');
+        const bundlePriceTag = document.getElementById('bundle-price-tag');
+        const bundleDiscount = document.getElementById('bundle-discount');
+        const discountRow = document.getElementById('discount-row');
+        const freeGiftBadge = document.getElementById('free-gift-badge');
+        const expertNote = document.getElementById('expert-note');
+        const resetBtn = document.getElementById('reset-bundle-btn');
+        const addBundleBtn = document.getElementById('add-bundle-to-cart');
+        const saveBundleBtn = document.getElementById('save-bundle-to-profile');
+
+        function getConcernLevel(val) {
+            return val <= 2 ? 'Low' : val === 3 ? 'Medium' : 'High';
+        }
+
+        function getPreferenceInfo(pref) {
+            const map = {
+                'clean': { icon: 'fa-leaf', name: 'Clean Beauty' },
+                'luxury': { icon: 'fa-crown', name: 'Luxury' },
+                'vegan': { icon: 'fa-seedling', name: 'Vegan' },
+                'cruelty-free': { icon: 'fa-rabbit', name: 'Cruelty-Free' },
+                'fragrance-free': { icon: 'fa-wind', name: 'Fragrance-Free' },
+                'organic': { icon: 'fa-apple-alt', name: 'Organic' },
+                'k-beauty': { icon: 'fa-fan', name: 'K-Beauty' },
+                'clinical': { icon: 'fa-flask', name: 'Clinical' }
+            };
+            return map[pref] || { icon: 'fa-leaf', name: 'Clean Beauty' };
+        }
+
+        function generateBundleItems() {
+            const pool = bundleProducts[skinType] || [];
+            const scored = pool.map(item => {
+                let score = 0;
+                if (item.concerns.includes('aging')) score += agingVal * 3;
+                if (item.concerns.includes('acne')) score += acneVal * 3;
+                if (item.concerns.includes('pigment')) score += pigmentVal * 3;
+                if (item.concerns.includes('hydration')) score += hydrationVal * 3;
+                if (item.concerns.includes('sensitivity')) score += sensitivityVal * 3;
+                if (item.preferences.includes(preference)) score += 20;
+                return { ...item, score };
+            });
+            scored.sort((a, b) => b.score - a.score);
+            return scored.slice(0, 4);
+        }
+
+        function getTopConcerns() {
+            const concerns = [];
+            if (agingVal >= 4) concerns.push('anti-aging');
+            if (acneVal >= 4) concerns.push('acne control');
+            if (pigmentVal >= 4) concerns.push('brightening');
+            if (hydrationVal >= 4) concerns.push('hydration');
+            if (sensitivityVal >= 4) concerns.push('soothing');
+            if (concerns.length === 0) return 'balanced';
+            if (concerns.length === 1) return concerns[0];
+            if (concerns.length === 2) return concerns.join(' and ');
+            return concerns.slice(0, -1).join(', ') + ', and ' + concerns.slice(-1);
+        }
+
+        function renderBundlePreview() {
+            if (!bundleTitle || !bundlePreference || !bundleItemsContainer) return;
+            
+            bundleTitle.textContent = skinTypeLabel + ' Skin Essentials';
+            const prefInfo = getPreferenceInfo(preference);
+            bundlePreference.innerHTML = `<i class="fas ${prefInfo.icon}"></i> ${prefInfo.name}`;
+            
+            const items = generateBundleItems();
+            let subtotal = 0;
+            let itemsHtml = '';
+            
+            items.forEach(item => {
+                subtotal += item.price;
+                itemsHtml += `
+                    <div class="bundle-item">
+                        <i class="fas ${item.icon}"></i>
+                        <span>${item.name}</span>
+                        <span style="font-weight: 700;">KSh ${Math.round(item.price * 130).toLocaleString()}</span>
+                    </div>
+                `;
+            });
+            
+            bundleItemsContainer.innerHTML = itemsHtml;
+            
+            const subtotalKsh = Math.round(subtotal * 130);
+            const shippingKsh = 150;
+            let totalKsh = subtotalKsh + shippingKsh;
+            let discountKsh = 0;
+            
+            if (items.some(item => item.price * 130 >= 500)) {
+                discountKsh = Math.round(subtotalKsh * 0.1);
+                totalKsh = subtotalKsh - discountKsh + shippingKsh;
+                if (discountRow) discountRow.style.display = 'flex';
+                if (bundleDiscount) bundleDiscount.textContent = `-KSh ${discountKsh.toLocaleString()}`;
+            } else {
+                if (discountRow) discountRow.style.display = 'none';
+            }
+            
+            if (freeGiftBadge) {
+                freeGiftBadge.style.display = items.length >= 4 ? 'flex' : 'none';
+            }
+            
+            if (bundleSubtotal) bundleSubtotal.textContent = `KSh ${subtotalKsh.toLocaleString()}`;
+            if (bundlePriceTag) bundlePriceTag.textContent = `KSh ${totalKsh.toLocaleString()}`;
+            
+            if (expertNote) {
+                const topConcerns = getTopConcerns();
+                expertNote.innerHTML = `<i class="fas fa-lightbulb"></i> <strong>Beauty tip:</strong> This bundle focuses on <strong>${topConcerns}</strong> for ${skinTypeLabel} skin.`;
+            }
+        }
+
+        if (skinTypeChips.length > 0) {
+            skinTypeChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    skinTypeChips.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    skinType = this.dataset.skin;
+                    skinTypeLabel = this.dataset.label;
+                    renderBundlePreview();
+                });
+            });
+        }
+
+        if (preferenceCards.length > 0) {
+            preferenceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    preferenceCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    preference = this.dataset.preference;
+                    renderBundlePreview();
+                });
+            });
+        }
+
+        if (agingSlider) {
+            agingSlider.addEventListener('input', function() {
+                agingVal = parseInt(this.value);
+                if (agingValue) agingValue.textContent = getConcernLevel(agingVal);
+                renderBundlePreview();
+            });
+        }
+
+        if (acneSlider) {
+            acneSlider.addEventListener('input', function() {
+                acneVal = parseInt(this.value);
+                if (acneValue) acneValue.textContent = getConcernLevel(acneVal);
+                renderBundlePreview();
+            });
+        }
+
+        if (pigmentSlider) {
+            pigmentSlider.addEventListener('input', function() {
+                pigmentVal = parseInt(this.value);
+                if (pigmentValue) pigmentValue.textContent = getConcernLevel(pigmentVal);
+                renderBundlePreview();
+            });
+        }
+
+        if (hydrationSlider) {
+            hydrationSlider.addEventListener('input', function() {
+                hydrationVal = parseInt(this.value);
+                if (hydrationValue) hydrationValue.textContent = getConcernLevel(hydrationVal);
+                renderBundlePreview();
+            });
+        }
+
+        if (sensitivitySlider) {
+            sensitivitySlider.addEventListener('input', function() {
+                sensitivityVal = parseInt(this.value);
+                if (sensitivityValue) sensitivityValue.textContent = getConcernLevel(sensitivityVal);
+                renderBundlePreview();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function() {
+                if (skinTypeChips.length > 0) {
+                    skinTypeChips.forEach((chip, index) => {
+                        if (index === 0) chip.classList.add('selected');
+                        else chip.classList.remove('selected');
+                    });
+                }
+                skinType = 'dry';
+                skinTypeLabel = 'Dry';
+                
+                if (agingSlider) agingSlider.value = 3;
+                if (acneSlider) acneSlider.value = 3;
+                if (pigmentSlider) pigmentSlider.value = 4;
+                if (hydrationSlider) hydrationSlider.value = 3;
+                if (sensitivitySlider) sensitivitySlider.value = 3;
+                
+                agingVal = 3; acneVal = 3; pigmentVal = 4; hydrationVal = 3; sensitivityVal = 3;
+                
+                if (agingValue) agingValue.textContent = 'Medium';
+                if (acneValue) acneValue.textContent = 'Medium';
+                if (pigmentValue) pigmentValue.textContent = 'High';
+                if (hydrationValue) hydrationValue.textContent = 'Medium';
+                if (sensitivityValue) sensitivityValue.textContent = 'Medium';
+                
+                if (preferenceCards.length > 0) {
+                    preferenceCards.forEach(card => {
+                        card.classList.remove('selected');
+                        if (card.dataset.preference === 'clean') {
+                            card.classList.add('selected');
+                        }
+                    });
+                }
+                preference = 'clean';
+                
+                renderBundlePreview();
+            });
+        }
+
+        if (addBundleBtn) {
+            addBundleBtn.addEventListener('click', function() {
+                const items = generateBundleItems();
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                items.forEach(item => {
+                    cart.push({
+                        id: item.id || Date.now() + Math.random(),
+                        name: item.name,
+                        price: item.price,
+                        quantity: 1,
+                        icon: item.icon
+                    });
+                });
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount) {
+                    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                    cartCount.textContent = totalItems;
+                }
+                
+                alert('✅ Beauty bundle added to your cart!');
+            });
+        }
+
+        if (saveBundleBtn) {
+            saveBundleBtn.addEventListener('click', function() {
+                if (typeof auth !== 'undefined' && auth.currentUser) {
+                    alert('✅ Bundle saved to your profile!');
+                } else {
+                    if (confirm('Please sign in to save to your profile. Go to login page?')) {
+                        window.location.href = 'index.html';
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (agingValue) agingValue.textContent = 'Medium';
+            if (acneValue) acneValue.textContent = 'Medium';
+            if (pigmentValue) pigmentValue.textContent = 'High';
+            if (hydrationValue) hydrationValue.textContent = 'Medium';
+            if (sensitivityValue) sensitivityValue.textContent = 'Medium';
+            renderBundlePreview();
+        });
+    </script>
+
+    <!-- Search Functionality -->
+    <script>
+        let currentSearchFilter = 'all';
+        let searchResults = [];
+        let selectedResultIndex = -1;
+        
+        window.toggleSearch = function() {
+            const overlay = document.getElementById('searchOverlay');
+            const input = document.getElementById('searchInput');
+            const hint = document.getElementById('searchShortcutHint');
+            
+            if (overlay.classList.contains('active')) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                if (input) {
+                    input.value = '';
+                    clearSearchResults();
+                }
+                if (hint) hint.classList.remove('hide');
+            } else {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                if (hint) hint.classList.add('hide');
+                setTimeout(() => {
+                    if (input) {
+                        input.focus();
+                        performSearch('');
+                    }
+                }, 100);
+            }
+        };
+        
+        window.clearSearch = function() {
+            const input = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearch');
+            if (input) {
+                input.value = '';
+                input.focus();
+                performSearch('');
+            }
+            if (clearBtn) clearBtn.style.display = 'none';
+        };
+        
+        function performSearch(query) {
+            const resultsContainer = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (clearBtn) {
+                clearBtn.style.display = query.length > 0 ? 'flex' : 'none';
+            }
+            
+            let filtered = window.products || [];
+            
+            if (currentSearchFilter !== 'all') {
+                filtered = filtered.filter(p => p.category === currentSearchFilter);
+            }
+            
+            if (query.trim() !== '') {
+                const searchTerms = query.toLowerCase().split(' ');
+                filtered = filtered.filter(product => {
+                    const searchableText = `${product.name} ${product.description} ${product.categoryDisplay}`.toLowerCase();
+                    return searchTerms.every(term => searchableText.includes(term));
+                });
+            }
+            
+            searchResults = filtered;
+            selectedResultIndex = -1;
+            
+            if (filtered.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h4>No products found</h4>
+                        <p>Try different keywords or browse all products</p>
+                    </div>
+                `;
+            } else if (query.trim() === '') {
+                let html = '<div class="search-initial"><i class="fas fa-fire"></i><p>Popular Products</p></div>';
+                filtered.slice(0, 5).forEach(product => {
+                    html += createSearchResultItem(product);
+                });
+                resultsContainer.innerHTML = html;
+            } else {
+                let html = `<div style="margin-bottom: 15px; color: var(--text); opacity: 0.7;">
+                    Found ${filtered.length} product${filtered.length > 1 ? 's' : ''}
+                </div>`;
+                filtered.forEach(product => {
+                    html += createSearchResultItem(product);
+                });
+                resultsContainer.innerHTML = html;
+            }
+        }
+        
+        function createSearchResultItem(product) {
+            const kshPrice = Math.round(product.price * 130).toLocaleString();
+            const icon = product.icon || (product.category === 'skincare' ? 'fa-spa' : 
+                       product.category === 'makeup' ? 'fa-paint-brush' :
+                       product.category === 'haircare' ? 'fa-hand-holding-heart' :
+                       product.category === 'fragrance' ? 'fa-feather-alt' :
+                       product.category === 'tools' ? 'fa-bolt' :
+                       product.category === 'nail' ? 'fa-hand-paper' : 'fa-tag');
+            return `
+                <div class="search-result-item" onclick="selectProduct('${product.id}')" data-id="${product.id}">
+                    <div class="result-icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="result-info">
+                        <div class="result-name">${product.name}</div>
+                        <div class="result-category">
+                            <i class="fas ${icon}"></i> ${product.categoryDisplay || product.category}
+                        </div>
+                    </div>
+                    <div class="result-price">
+                        KSh ${kshPrice}
+                    </div>
+                </div>
+            `;
+        }
+        
+        window.selectProduct = function(productId) {
+            toggleSearch();
+            if (typeof showProductInfo === 'function') {
+                showProductInfo(productId);
+            } else {
+                const product = (window.products || []).find(p => p.id == productId);
+                if (product) {
+                    alert(`Selected: ${product.name}\nPrice: KSh ${Math.round(product.price * 130).toLocaleString()}`);
+                }
+            }
+        };
+        
+        window.filterSearch = function(category) {
+            currentSearchFilter = category;
+            
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                if (chip.dataset.filter === category) {
+                    chip.classList.add('active');
+                } else {
+                    chip.classList.remove('active');
+                }
+            });
+            
+            const input = document.getElementById('searchInput');
+            performSearch(input ? input.value : '');
+        };
+        
+        function clearSearchResults() {
+            const results = document.getElementById('searchResults');
+            if (results) {
+                results.innerHTML = `
+                    <div class="search-initial">
+                        <i class="fas fa-arrow-up"></i>
+                        <p>Type something to search products...</p>
+                    </div>
+                `;
+            }
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            const overlay = document.getElementById('searchOverlay');
+            
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleSearch();
+            }
+            
+            if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+                toggleSearch();
+            }
+            
+            if (overlay && overlay.classList.contains('active')) {
+                const results = document.querySelectorAll('.search-result-item');
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedResultIndex = Math.min(selectedResultIndex + 1, results.length - 1);
+                    updateSelectedResult(results);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedResultIndex = Math.max(selectedResultIndex - 1, -1);
+                    updateSelectedResult(results);
+                } else if (e.key === 'Enter' && selectedResultIndex >= 0) {
+                    e.preventDefault();
+                    const selected = results[selectedResultIndex];
+                    if (selected) {
+                        const productId = selected.dataset.id;
+                        selectProduct(productId);
+                    }
+                }
+            }
+        });
+        
+        function updateSelectedResult(results) {
+            results.forEach((result, index) => {
+                if (index === selectedResultIndex) {
+                    result.classList.add('selected');
+                    result.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                } else {
+                    result.classList.remove('selected');
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    performSearch(e.target.value);
+                });
+            }
+            
+            setTimeout(() => {
+                const hint = document.getElementById('searchShortcutHint');
+                if (hint) hint.classList.add('hide');
+            }, 5000);
+        });
+    </script>
+
+    <!-- Theme Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            const savedTheme = localStorage.getItem('gloBeauty_theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (savedTheme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            themeToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const currentTheme = document.body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('gloBeauty_theme', newTheme);
+                
+                if (newTheme === 'dark') {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+                
+                themeToggle.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    themeToggle.style.transform = 'rotate(0deg)';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

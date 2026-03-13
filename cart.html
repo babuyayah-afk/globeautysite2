@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>GloBeauty | Your Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Paystack Library -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        /* Your existing styles - unchanged */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #990592;
+            --secondary: #fd09d4;
+            --accent: #F7D4B5;
+            --purple: #CBAACB;
+            --light: #FFF9F9;
+            --dark: #2A2D34;
+            --text: #4A4A4A;
+            --bg-primary: #FFF5F5;
+            --bg-secondary: white;
+            --card-bg: white;
+            --border-color: #FFE0E0;
+            --shadow: 0 8px 20px rgba(196, 90, 90, 0.08);
+            --hover-bg: #FFF0F0;
+            --input-bg: white;
+            --success: #4CAF50;
+            --radius: 16px;
+        }
+
+        [data-theme="dark"] {
+            --primary: #D4A5A5;
+            --secondary: #C45A5A;
+            --accent: #F7D4B5;
+            --purple: #CBAACB;
+            --light: #2A2D34;
+            --dark: #F7FFF7;
+            --text: #E0E0E0;
+            --bg-primary: #1A1C20;
+            --bg-secondary: #2A2D34;
+            --card-bg: #2A2D34;
+            --border-color: #404040;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --hover-bg: #3A3D44;
+            --input-bg: #1A1C20;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Cart Header */
+        .cart-header {
+            background: var(--bg-secondary);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid var(--primary);
+        }
+        
+        .cart-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .cart-logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+            -webkit-text-fill-color: var(--secondary);
+        }
+        
+        .back-to-shop {
+            background: var(--hover-bg);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        
+        .back-to-shop:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Main Cart Layout */
+        .cart-main {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Cart Items Section */
+        .cart-items-section {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .cart-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed var(--border-color);
+        }
+        
+        .cart-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+        
+        .cart-title h2 span {
+            font-size: 16px;
+            opacity: 0.6;
+        }
+        
+        .clear-cart {
+            color: var(--secondary);
+            background: rgba(196,90,90,0.1);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+        
+        /* Cart Item */
+        .cart-item {
+            display: grid;
+            grid-template-columns: 60px 1fr auto auto auto;
+            gap: 15px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 60px;
+            height: 60px;
+            background: var(--hover-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        .item-details h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .item-price {
+            font-weight: 800;
+            color: var(--secondary);
+            font-size: 16px;
+        }
+        
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--hover-bg);
+            padding: 5px 10px;
+            border-radius: 30px;
+        }
+        
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: var(--card-bg);
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .qty-number {
+            font-weight: 700;
+            min-width: 25px;
+            text-align: center;
+        }
+        
+        .item-total {
+            font-weight: 800;
+            font-size: 16px;
+            min-width: 70px;
+            text-align: right;
+        }
+        
+        .remove-item {
+            color: var(--text);
+            opacity: 0.3;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .remove-item:hover {
+            opacity: 1;
+            color: var(--secondary);
+        }
+        
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .empty-cart i {
+            font-size: 60px;
+            color: var(--text);
+            opacity: 0.2;
+            margin-bottom: 15px;
+        }
+        
+        .empty-cart h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .continue-shopping {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        /* Accountant Sidebar */
+        .accountant-sidebar {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+        
+        .accountant-card {
+            background: linear-gradient(145deg, #2A2D34, #1E1F24);
+            color: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+        
+        .accountant-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .accountant-header i {
+            font-size: 24px;
+            color: var(--accent);
+        }
+        
+        .accountant-header h3 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+        
+        .price-line.total {
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Checkout Card */
+        .checkout-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--primary);
+        }
+        
+        .checkout-card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Address Section */
+        .address-section {
+            background: var(--hover-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .address-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .address-header h4 {
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .live-location-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        
+        .address-form {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .address-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 14px;
+            font-family: 'Quicksand', sans-serif;
+            background: var(--input-bg);
+            color: var(--text);
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            margin-bottom: 15px;
+        }
+        
+        .payment-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .payment-option {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 10px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .payment-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .payment-option.selected {
+            border-color: var(--primary);
+            background: var(--hover-bg);
+        }
+        
+        .payment-option i {
+            font-size: 22px;
+        }
+        
+        .payment-option span {
+            font-weight: 700;
+            font-size: 11px;
+        }
+        
+        .payment-option[data-method="mpesa"] i { color: #4CAF50; }
+        .payment-option[data-method="card"] i { color: #D4A5A5; }
+        .payment-option[data-method="bank"] i { color: #005A9C; }
+        .payment-option[data-method="prompt"] i { color: #C45A5A; }
+        
+        .payment-info-box {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            background: var(--hover-bg);
+            border-left: 3px solid var(--primary);
+            font-size: 13px;
+        }
+        
+        .payment-info-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-info-content i {
+            font-size: 20px;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary), #B54A4A);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+        
+        .checkout-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(196,90,90,0.3);
+        }
+        
+        /* Paystack Modal Responsive Fixes */
+        iframe[src*="paystack"] {
+            width: 100% !important;
+            max-width: 550px !important;
+            height: auto !important;
+            min-height: 480px !important;
+            max-height: 85vh !important;
+            border-radius: 24px !important;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        @media (max-width: 768px) {
+            iframe[src*="paystack"] {
+                max-width: 95% !important;
+                min-height: 450px !important;
+                border-radius: 20px !important;
+            }
+            
+            .cart-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cart-item {
+                grid-template-columns: 50px 1fr auto;
+                grid-template-areas: 
+                    "image details details"
+                    "image price quantity"
+                    "total total remove";
+                gap: 10px;
+            }
+            
+            .item-image { grid-area: image; }
+            .item-details { grid-area: details; }
+            .item-price { grid-area: price; }
+            .item-quantity { grid-area: quantity; justify-self: end; }
+            .item-total { grid-area: total; text-align: left; }
+            .remove-item { grid-area: remove; text-align: right; }
+            
+            iframe[src*="paystack"] {
+                min-height: 400px !important;
+                border-radius: 16px !important;
+            }
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px 0 15px;
+            margin-top: 40px;
+            border-radius: 30px 30px 0 0;
+        }
+        
+        .currency-note {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="cart-header">
+        <div class="container cart-header-container">
+            <a href="index.html" class="cart-logo">
+                <i class="fas fa-spa"></i> GloBeauty
+                <span style="background: var(--accent); color: var(--dark); padding: 4px 12px; border-radius: 30px; font-size: 12px; margin-left: 10px;">Cart</span>
+            </a>
+            <a href="home.html#products" class="back-to-shop">
+                <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="cart-main">
+            <!-- Cart Items -->
+            <div class="cart-items-section">
+                <div class="cart-title">
+                    <h2><i class="fas fa-shopping-cart"></i> Your Cart <span id="cart-item-count">(0 items)</span></h2>
+                    <button class="clear-cart" onclick="clearCart()"><i class="fas fa-trash"></i> Clear</button>
+                </div>
+                <div id="cart-items-container"></div>
+            </div>
+            
+            <!-- Checkout Sidebar -->
+            <div class="accountant-sidebar">
+                <div class="accountant-card">
+                    <div class="accountant-header">
+                        <i class="fas fa-calculator"></i>
+                        <h3>Cart Summary</h3>
+                    </div>
+                    <div id="accountant-details">
+                        <div class="price-line"><span>Subtotal</span> <span id="subtotal-amount">KSh 0</span></div>
+                        <div class="price-line"><span>Shipping</span> <span id="shipping-amount">KSh 150</span></div>
+                        <div class="price-line total"><span>Total</span> <span id="total-amount">KSh 0</span></div>
+                    </div>
+                </div>
+                
+                <!-- Checkout Card -->
+                <div class="checkout-card">
+                    <h3><i class="fas fa-lock"></i> Checkout</h3>
+                    
+                    <!-- Address - Compact -->
+                    <div class="address-section">
+                        <div class="address-header">
+                            <h4><i class="fas fa-map-marker-alt"></i> Delivery</h4>
+                            <button class="live-location-btn" onclick="getLiveLocation()"><i class="fas fa-location-dot"></i> Live</button>
+                        </div>
+                        <div class="address-form">
+                            <input type="text" id="fullName" class="address-input" placeholder="Full Name" value="Jane Mwangi">
+                            <input type="text" id="phoneNumber" class="address-input" placeholder="Phone" value="0712 345 678">
+                            <input type="text" id="addressLine1" class="address-input" placeholder="Address" value="Kimathi Street">
+                            <input type="text" id="city" class="address-input" placeholder="City" value="Nairobi">
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Methods -->
+                    <div class="payment-methods">
+                        <div class="payment-title"><i class="fas fa-credit-card"></i> Pay With</div>
+                        <div class="payment-grid">
+                            <div class="payment-option selected" onclick="selectPayment('mpesa', this)" data-method="mpesa">
+                                <i class="fas fa-mobile-alt"></i><span>M-PESA</span>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment('card', this)" data-method="card">
+                                <i class="fas fa-credit-card"></i><span>Card</span>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment('bank', this)" data-method="bank">
+                                <i class="fas fa-university"></i><span>Bank</span>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment('prompt', this)" data-method="prompt">
+                                <i class="fas fa-bolt"></i><span>Prompt</span>
+                            </div>
+                        </div>
+                        <div id="payment-info-box" class="payment-info-box" style="display: none;"></div>
+                    </div>
+                    
+                    <!-- Complete Order Button -->
+                    <button class="checkout-btn" onclick="completeOrder()">
+                        <i class="fas fa-shield-alt"></i> Complete Order
+                    </button>
+                    <p style="font-size: 10px; color: #999; text-align: center; margin-top: 8px;">
+                        <i class="fas fa-lock"></i> Secure • Powered by Paystack
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div style="text-align: center; font-size: 14px;">
+                <p>© 2025 GloBeauty. Secure Shopping Cart.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript - FIXED: Now properly inside script tags -->
+    <script>
+        // Cart data - Load from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const KSH_CONVERSION = 130;
+        let selectedPaymentMethod = 'mpesa';
+
+        // Product database
+        const products = [
+            { id: 1, name: "Vitamin C Serum", price: 45.99, icon: "fa-droplet", category: "skincare" },
+            { id: 2, name: "Hyaluronic Acid", price: 38.50, icon: "fa-water", category: "skincare" },
+            { id: 3, name: "Gentle Cleanser", price: 24.99, icon: "fa-soap", category: "skincare" },
+            { id: 4, name: "Long-wear Foundation", price: 42.99, icon: "fa-paint-roller", category: "makeup" },
+            { id: 5, name: "Hydrating Lipstick", price: 22.99, icon: "fa-paint-brush", category: "makeup" },
+            { id: 6, name: "Nourishing Shampoo", price: 28.99, icon: "fa-hand-holding-heart", category: "haircare" },
+            { id: 7, name: "Floral Eau de Parfum", price: 65.99, icon: "fa-feather-alt", category: "fragrance" },
+            { id: 8, name: "Jade Roller Set", price: 29.99, icon: "fa-gem", category: "tools" }
+        ];
+
+        // Convert USD to KSH
+        function toKSH(usd) {
+            return Math.round(usd * KSH_CONVERSION);
+        }
+
+        // ===== FIXED ADD TO CART FUNCTION =====
+        // This function should be called from home.html
+        function addToCart(productId) {
+            // Find the product
+            const product = products.find(p => p.id === productId);
+            if (!product) {
+                console.error('Product not found');
+                return;
+            }
+            
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                // If exists, increase quantity
+                existingItem.quantity += 1;
+            } else {
+                // If new, add with quantity 1
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                    icon: product.icon,
+                    category: product.category
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count display if it exists
+            updateCartCount();
+            
+            // Show feedback
+            alert(`${product.name} added to cart!`);
+            
+            // If on cart page, refresh display
+            if (document.getElementById('cart-items-container')) {
+                renderCart();
+            }
+        }
+
+        // Update cart count in header (call this from any page)
+        function updateCartCount() {
+            const cartCountElements = document.querySelectorAll('.cart-count, #cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            cartCountElements.forEach(el => {
+                if (el) el.textContent = `(${totalItems} items)`;
+            });
+            
+            // Also update localStorage for other pages
+            localStorage.setItem('cartCount', totalItems);
+        }
+
+        // ===== FIXED RENDER CART FUNCTION =====
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const cartCount = document.getElementById('cart-item-count');
+            
+            if (!container) return;
+            
+            if (!cart || cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Looks like you haven't added any beauty products yet.</p>
+                        <a href="home.html#products" class="continue-shopping">
+                            <i class="fas fa-arrow-left"></i> Start Shopping
+                        </a>
+                    </div>
+                `;
+                if (cartCount) cartCount.textContent = '(0 items)';
+                updateTotals();
+                return;
+            }
+            
+            let totalItems = 0;
+            let html = '';
+            
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id) || item;
+                totalItems += item.quantity;
+                const itemTotal = product.price * item.quantity;
+                const kshPrice = toKSH(product.price);
+                const kshTotal = toKSH(itemTotal);
+                
+                html += `
+                    <div class="cart-item" data-product-id="${product.id}">
+                        <div class="item-image">
+                            <i class="fas ${product.icon}"></i>
+                        </div>
+                        <div class="item-details">
+                            <h3>${product.name}</h3>
+                            <span class="item-category">
+                                <i class="fas ${getCategoryIcon(product.category)}"></i> ${product.category || 'Beauty'}
+                            </span>
+                        </div>
+                        <div class="item-price">
+                            KSh ${kshPrice.toLocaleString()}
+                        </div>
+                        <div class="item-quantity">
+                            <button class="qty-btn" onclick="updateQuantity(${product.id}, ${item.quantity - 1})">−</button>
+                            <span class="qty-number">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity(${product.id}, ${item.quantity + 1})">+</button>
+                        </div>
+                        <div class="item-total">
+                            KSh ${kshTotal.toLocaleString()}
+                        </div>
+                        <div class="remove-item" onclick="removeFromCart(${product.id})">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            if (cartCount) cartCount.textContent = `(${totalItems} items)`;
+            updateTotals();
+            updateCartCount();
+        }
+
+        // Helper function for category icon
+        function getCategoryIcon(category) {
+            const icons = {
+                skincare: 'fa-spa',
+                makeup: 'fa-paint-brush',
+                haircare: 'fa-hand-holding-heart',
+                fragrance: 'fa-feather-alt',
+                tools: 'fa-bolt',
+                body: 'fa-spa'
+            };
+            return icons[category] || 'fa-tag';
+        }
+
+        // ===== FIXED UPDATE QUANTITY =====
+        function updateQuantity(productId, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity = newQuantity;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        // ===== FIXED REMOVE FROM CART =====
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        // ===== FIXED CLEAR CART =====
+        function clearCart() {
+            if (confirm('Are you sure you want to clear your cart?')) {
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        // ===== FIXED UPDATE TOTALS =====
+        function updateTotals() {
+            let subtotalUSD = 0;
+            let totalItems = 0;
+            
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id) || item;
+                subtotalUSD += product.price * item.quantity;
+                totalItems += item.quantity;
+            });
+            
+            const subtotalKSH = toKSH(subtotalUSD);
+            
+            // Calculate free sample offer (1 sample for every 4 items)
+            const freeSamplesCount = Math.floor(totalItems / 4);
+            
+            // Shipping (KSh 150 flat rate, free if subtotal > KSh 3000)
+            const shippingKSH = subtotalKSH > 3000 ? 0 : 150;
+            
+            // Total
+            const totalKSH = subtotalKSH + shippingKSH;
+            
+            // Update DOM
+            const subtotalEl = document.getElementById('subtotal-amount');
+            const shippingEl = document.getElementById('shipping-amount');
+            const totalEl = document.getElementById('total-amount');
+            
+            if (subtotalEl) subtotalEl.textContent = `KSh ${subtotalKSH.toLocaleString()}`;
+            if (shippingEl) shippingEl.textContent = shippingKSH === 0 ? 'Free' : `KSh ${shippingKSH.toLocaleString()}`;
+            if (totalEl) totalEl.textContent = `KSh ${Math.round(totalKSH).toLocaleString()}`;
+        }
+
+        // ===== PAYMENT METHODS =====
+        function selectPayment(method, element) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            showPaymentInfo(method);
+        }
+
+        function showPaymentInfo(method) {
+            const infoBox = document.getElementById('payment-info-box');
+            const details = {
+                mpesa: { icon: "fa-mobile-alt", title: "M-PESA", msg: "STK push sent to your phone", color: "#4CAF50" },
+                card: { icon: "fa-credit-card", title: "Credit Card", msg: "Visa/Mastercard accepted", color: "#D4A5A5" },
+                bank: { icon: "fa-university", title: "KCB Bank", msg: "Get temporary account number", color: "#005A9C" },
+                prompt: { icon: "fa-bolt", title: "Send Prompt", msg: "Instant payment notification", color: "#C45A5A" }
+            };
+            const d = details[method];
+            infoBox.style.display = 'block';
+            infoBox.innerHTML = `
+                <div class="payment-info-content">
+                    <i class="fas ${d.icon}" style="color: ${d.color};"></i>
+                    <div><strong style="color: ${d.color};">${d.title}</strong><br>${d.msg}</div>
+                </div>
+            `;
+        }
+
+        // ===== LIVE LOCATION =====
+        function getLiveLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('addressLine1').value = `Location: ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`;
+                });
+            }
+        }
+
+        // ===== COMPLETE ORDER WITH PAYSTACK =====
+        window.completeOrder = async function() {
+            // Get logged-in user from Firebase
+            const user = window.auth?.currentUser;
+            
+            // If user is not logged in, let them checkout as guest
+            if (!user) {
+                // For guest checkout, validate manual fields
+                const name = document.getElementById('fullName').value.trim();
+                const phone = document.getElementById('phoneNumber').value.trim();
+                const address = document.getElementById('addressLine1').value.trim();
+                
+                if (!name || !phone || !address) {
+                    alert('Please fill in all delivery fields');
+                    return;
+                }
+                
+                // Process guest checkout
+                processPayment({
+                    email: phone.replace(/\s/g, '') + '@customer.globeauty.com',
+                    name: name,
+                    phone: phone,
+                    address: address,
+                    city: document.getElementById('city').value.trim() || 'Nairobi',
+                    userId: 'guest'
+                });
+                return;
+            }
+            
+            // USER IS LOGGED IN - AUTO-FILL EVERYTHING!
+            
+            try {
+                // Get additional user data from Firestore
+                const userDoc = await window.getDoc(window.doc(window.db, "users", user.uid));
+                const userData = userDoc.exists() ? userDoc.data() : {};
+                
+                // Auto-fill form fields with user data (for display)
+                if (userData.name || user.displayName) {
+                    document.getElementById('fullName').value = userData.name || user.displayName || '';
+                }
+                if (userData.phone) {
+                    document.getElementById('phoneNumber').value = userData.phone || '';
+                }
+                if (userData.address) {
+                    document.getElementById('addressLine1').value = userData.address || '';
+                }
+                if (userData.city) {
+                    document.getElementById('city').value = userData.city || '';
+                }
+                
+                // Process payment with user's real data
+                processPayment({
+                    email: user.email,
+                    name: userData.name || user.displayName || 'Customer',
+                    phone: userData.phone || document.getElementById('phoneNumber').value || 'Not provided',
+                    address: userData.address || document.getElementById('addressLine1').value || 'Not provided',
+                    city: userData.city || document.getElementById('city').value || 'Nairobi',
+                    userId: user.uid
+                });
+                
+            } catch (error) {
+                console.error('Error getting user data:', error);
+                // Fallback to basic user info
+                processPayment({
+                    email: user.email,
+                    name: user.displayName || document.getElementById('fullName').value || 'Customer',
+                    phone: document.getElementById('phoneNumber').value || 'Not provided',
+                    address: document.getElementById('addressLine1').value || 'Not provided',
+                    city: document.getElementById('city').value || 'Nairobi',
+                    userId: user.uid
+                });
+            }
+        }
+
+        // Separate function to handle actual payment
+        function processPayment(customerInfo) {
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            const totalText = document.getElementById('total-amount').textContent;
+            const totalKSH = parseInt(totalText.replace(/[^0-9]/g, ''));
+            const orderRef = `GLB${Date.now()}`;
+            
+            // Initialize Paystack with AUTO-FILLED customer data
+            const handler = PaystackPop.setup({
+                key: 'pk_test_3240381069e818f5b0cdeb2a016bb2da67c1b0cf', // Your test key
+                email: customerInfo.email,
+                amount: totalKSH * 100,
+                currency: 'KES',
+                ref: orderRef,
+                channels: ['card', 'mpesa', 'bank_transfer'],
+                
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Customer Name",
+                            variable_name: "customer_name",
+                            value: customerInfo.name
+                        },
+                        {
+                            display_name: "Phone Number",
+                            variable_name: "customer_phone",
+                            value: customerInfo.phone
+                        },
+                        {
+                            display_name: "User ID",
+                            variable_name: "user_id",
+                            value: customerInfo.userId || 'guest'
+                        }
+                    ]
+                },
+                
+                callback: function(response) {
+                    // Payment successful!
+                    saveOrderToFirebase(response, customerInfo, totalKSH);
+                },
+                
+                onClose: function() {
+                    alert('Payment cancelled');
+                }
+            });
+            
+            handler.openIframe();
+        }
+
+        // Save order to Firebase
+        async function saveOrderToFirebase(paymentResponse, customerInfo, totalKSH) {
+            try {
+                const orderData = {
+                    customerName: customerInfo.name,
+                    customerEmail: customerInfo.email,
+                    phone: customerInfo.phone,
+                    address: customerInfo.address,
+                    city: customerInfo.city,
+                    items: cart.map(item => {
+                        const product = products.find(p => p.id === item.id);
+                        return {
+                            name: product.name,
+                            quantity: item.quantity,
+                            price: product.price
+                        };
+                    }),
+                    total: totalKSH,
+                    paymentMethod: selectedPaymentMethod,
+                    paymentReference: paymentResponse.reference,
+                    status: 'paid',
+                    paidAt: new Date().toISOString(),
+                    userId: customerInfo.userId || 'guest'
+                };
+                
+                // Save to Firestore if user is logged in
+                if (customerInfo.userId && customerInfo.userId !== 'guest' && window.db) {
+                    await window.addDoc(window.collection(window.db, "orders"), {
+                        ...orderData,
+                        createdAt: window.serverTimestamp()
+                    });
+                    console.log('Order saved to Firestore');
+                } else {
+                    // Save to localStorage for guests
+                    const guestOrders = JSON.parse(localStorage.getItem('guestOrders') || '[]');
+                    guestOrders.push(orderData);
+                    localStorage.setItem('guestOrders', JSON.stringify(guestOrders));
+                    console.log('Order saved to localStorage');
+                }
+                
+                alert(`✅ Payment successful! Thank you for your order.`);
+                
+                // Clear cart
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+                
+            } catch (error) {
+                console.error('Error saving order:', error);
+                alert('Payment successful but order not saved. Please contact support.');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCart();
+            showPaymentInfo('mpesa');
+            
+            // Check for offer badge element and hide it initially
+            const offerBadge = document.getElementById('offer-badge');
+            if (offerBadge) offerBadge.style.display = 'none';
+        });
+    </script>
+
+    <!-- Firebase Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        // YOUR EXISTING FIREBASE CONFIG - UNCHANGED
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmL_Mv9YJM72FC2LLDvdluOUXUmMxQjc8",
+            authDomain: "littleexplorers-kenya.firebaseapp.com",
+            projectId: "littleexplorers-kenya",
+            storageBucket: "littleexplorers-kenya.firebasestorage.app",
+            messagingSenderId: "737872854301",
+            appId: "1:737872854301:web:18b6e0d163ddb9c2f5b5f4"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally
+        window.auth = auth;
+        window.db = db;
+        window.doc = doc;
+        window.getDoc = getDoc;
+        window.collection = collection;
+        window.addDoc = addDoc;
+        window.serverTimestamp = serverTimestamp;
+
+        // Listen for auth state changes
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log('User logged in:', user.email);
+                // Auto-fill checkout form with user data
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+                        if (data.name) document.getElementById('fullName').value = data.name;
+                        if (data.phone) document.getElementById('phoneNumber').value = data.phone;
+                        if (data.address) document.getElementById('addressLine1').value = data.address;
+                        if (data.city) document.getElementById('city').value = data.city;
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
